@@ -6,6 +6,9 @@ public class BreakableBranch : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        //Check if tag is player
+        if (!collision.collider.CompareTag("Player")) return;
+
         // Check if the colliding object has a Rigidbody and is not kinematic
         FallSpeedTracker speed = collision.collider.GetComponent<FallSpeedTracker>();
         if (!speed) return;
