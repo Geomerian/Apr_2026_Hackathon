@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2139208010292691951}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3.2917547, y: 3.26, z: -10.209557}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -168,6 +168,8 @@ MonoBehaviour:
   slideCounterMovement: 0.2
   jumpForce: 200
   accelerationMovement: 0
+  maryPoppinsMode: 0
+  maryPoppinsFallSpeed: 3
 --- !u!114 &7909093191170097079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -331,5 +333,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 8000602581838453048}
-  cameraBobAmount: 0.03
+  cameraBobAmount: 0.01
   bobbingFrequency: 10

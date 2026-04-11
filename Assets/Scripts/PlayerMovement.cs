@@ -47,6 +47,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 wallNormalVector;
 
     public bool accelerationMovement = false;
+    public bool maryPoppinsMode = false;
+    public float maryPoppinsFallSpeed = 1f;
+
 
     void Awake()
     {
@@ -110,7 +113,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement()
     {
-        rb.AddForce(Vector3.down * Time.deltaTime * gravityStrength);
+        Vector3 vel = rb.linearVelocity;
+        if (maryPoppinsMode && vel.y < 0)
+        {
+            rb.linearVelocity = new Vector3(vel.x, -maryPoppinsFallSpeed, vel.z);
+        }
+        else
+        {
+            rb.AddForce(Vector3.down * Time.deltaTime * gravityStrength);
+        }
 
         Vector2 mag = FindVelRelativeToLook();
         float xMag = mag.x, yMag = mag.y;
@@ -159,7 +170,6 @@ public class PlayerMovement : MonoBehaviour
 
                 
                 Vector3 targetVelocity = moveDir * currentMoveSpeed;
-                Vector3 vel = rb.linearVelocity;
 
                 rb.linearVelocity = new Vector3(targetVelocity.x, vel.y, targetVelocity.z);
             }

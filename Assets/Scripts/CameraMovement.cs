@@ -10,6 +10,12 @@ public class CameraMovement : MonoBehaviour
     private bool canBob = false;
     private float canBobTimer = 0f;
 
+    private void Start()
+    {
+        if (cameraTransform == null)
+            cameraTransform = Camera.main.transform;
+    }
+
     private void Update()
     {
         if (cameraTransform == null)
