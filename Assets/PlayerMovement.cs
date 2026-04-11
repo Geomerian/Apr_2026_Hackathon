@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     //Movement
     public float moveSpeed = 4500;
     public float maxSpeed = 20;
+    public float gravityStrength = 9.81f;
     public bool grounded;
     public LayerMask whatIsGround;
 
@@ -108,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
     private void Movement()
     {
         //Extra gravity
-        rb.AddForce(Vector3.down * Time.deltaTime * 10);
+        rb.AddForce(Vector3.down * Time.deltaTime * gravityStrength);
 
         //Find actual velocity relative to where player is looking
         Vector2 mag = FindVelRelativeToLook();
@@ -187,16 +188,12 @@ public class PlayerMovement : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y") * sensitivity * Time.fixedDeltaTime * sensMultiplier;
 
         //Find current look rotation
-        Vector3 rot = playerCam.transform.localRotation.eulerAngles;
-        desiredX = rot.y + mouseX;
-
-        //Rotate, and also make sure we dont over- or under-rotate.
+        desiredX += mouseX;
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        //Perform the rotations
-        playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, 0);
-        orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
+        playerCam.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+        orientation.localRotation = Quaternion.Euler(0f, desiredX, 0f);
     }
 
     private void CounterMovement(float x, float y, Vector2 mag)
@@ -227,6 +224,14 @@ public class PlayerMovement : MonoBehaviour
             Vector3 n = rb.linearVelocity.normalized * maxSpeed;
             rb.linearVelocity = new Vector3(n.x, fallspeed, n.z);
         }
+
+        Vector3 vel = rb.linearVelocity;
+        Vector3 horizontalVel = new Vector3(vel.x, 0, vel.z);
+
+        if(grounded && Math.Abs(x) < 0.01f && Math.Abs(y) < 0.01f && horizontalVel.magnitude < 0.1f)
+        {
+            rb.linearVelocity = new Vector3(0, vel.y, 0);
+        }
     }
 
     /// <summary>
@@ -237,12 +242,16 @@ public class PlayerMovement : MonoBehaviour
     public Vector2 FindVelRelativeToLook()
     {
         float lookAngle = orientation.transform.eulerAngles.y;
-        float moveAngle = Mathf.Atan2(rb.linearVelocity.x, rb.linearVelocity.z) * Mathf.Rad2Deg;
+
+        Vector3 vel = rb.linearVelocity;
+        Vector3 horizontalVel = new Vector3(vel.x, 0, vel.z);
+
+        float moveAngle = Mathf.Atan2(horizontalVel.x, horizontalVel.z) * Mathf.Rad2Deg;
 
         float u = Mathf.DeltaAngle(lookAngle, moveAngle);
         float v = 90 - u;
 
-        float magnitue = rb.linearVelocity.magnitude;
+        float magnitue = horizontalVel.magnitude;
         float yMag = magnitue * Mathf.Cos(u * Mathf.Deg2Rad);
         float xMag = magnitue * Mathf.Cos(v * Mathf.Deg2Rad);
 
