@@ -10,7 +10,7 @@ public class BreakableBranch : MonoBehaviour
         FallSpeedTracker speed = collision.collider.GetComponent<FallSpeedTracker>();
         if (!speed) return;
 
-        Debug.Log("Downward Speed: " + speed.GetDownwardSpeed());
+        //Debug.Log("Downward Speed: " + speed.GetDownwardSpeed());
 
         // If the impact force exceeds the break force, destroy the branch
         if (speed.GetDownwardSpeed() > breakForce)
