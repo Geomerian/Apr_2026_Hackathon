@@ -154,18 +154,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCam: {fileID: 5852300667599375216, guid: 511e18a3bb7e6124cae5de66e8fd8133, type: 3}
   orientation: {fileID: 2350748746039295440}
-  moveSpeed: 20
-  maxSpeed: 20
-  gravityStrength: 9.81
+  moveSpeed: 1
+  maxSpeed: 5
+  gravityStrength: 300
   grounded: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  counterMovement: 0.175
+  counterMovement: 0.3
   maxSlopeAngle: 35
-  slideForce: 400
+  slideForce: 500
   slideCounterMovement: 0.2
-  jumpForce: 450
+  jumpForce: 200
   accelerationMovement: 0
 --- !u!1001 &3981173205152814206
 PrefabInstance:
