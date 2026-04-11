@@ -4395,9 +4395,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3657421150765229065, guid: 786fdf427b1f0a74a91b7ee766b62f07, type: 3}
+      propertyPath: slideCounterMovement
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 4243150559265141864, guid: 786fdf427b1f0a74a91b7ee766b62f07, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4243150559265141864, guid: 786fdf427b1f0a74a91b7ee766b62f07, type: 3}
       propertyPath: cameraBobAmount
-      value: 0.01
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 8899721547228834841, guid: 786fdf427b1f0a74a91b7ee766b62f07, type: 3}
       propertyPath: m_LocalPosition.x

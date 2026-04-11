@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     //Input
     float x, y;
     bool jumping, sprinting, crouching;
+    bool isCrouching;
 
     //Sliding
     private Vector3 normalVector = Vector3.up;
@@ -49,6 +51,8 @@ public class PlayerMovement : MonoBehaviour
     public bool accelerationMovement = false;
     public bool maryPoppinsMode = false;
     public float maryPoppinsFallSpeed = 1f;
+
+    public float sprintSpeed = 10f;
 
 
     void Awake()
@@ -84,16 +88,20 @@ public class PlayerMovement : MonoBehaviour
         y = Input.GetAxisRaw("Vertical");
         jumping = Input.GetButton("Jump");
         crouching = Input.GetKey(KeyCode.LeftControl);
+        sprinting = Input.GetKey(KeyCode.LeftShift);
 
         //Crouching
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.LeftControl) && grounded)
             StartCrouch();
-        if (Input.GetKeyUp(KeyCode.LeftControl))
+        if (Input.GetKeyUp(KeyCode.LeftControl) && grounded)
             StopCrouch();
     }
 
     private void StartCrouch()
     {
+        if(isCrouching) return;
+
+        isCrouching = true;
         transform.localScale = crouchScale;
         transform.position = new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z);
         if (rb.linearVelocity.magnitude > 0.5f)
@@ -107,6 +115,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void StopCrouch()
     {
+        if(!isCrouching) return;
+
+        isCrouching = false;
         transform.localScale = playerScale;
         transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
     }
@@ -128,12 +139,20 @@ public class PlayerMovement : MonoBehaviour
 
         if (readyToJump && jumping) Jump();
 
-        float maxSpeed = this.maxSpeed;
+        
 
         if (crouching && grounded && readyToJump)
         {
             rb.AddForce(Vector3.down * Time.deltaTime * 3000);
-            return;
+
+            Vector3 horizontalVel = new Vector3(vel.x, 0, vel.z);   
+
+            if(horizontalVel.magnitude > 0.01f)
+            {
+                rb.AddForce(-horizontalVel.normalized * moveSpeed * Time.deltaTime * slideCounterMovement);
+            }
+
+            //return;
         }
 
         float multiplier = 1f;
@@ -180,6 +199,8 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && readyToJump)
         {
+            if (isCrouching) StopCrouch();
+
             readyToJump = false;
 
             //Add jump forces
@@ -323,6 +344,22 @@ public class PlayerMovement : MonoBehaviour
     private void StopGrounded()
     {
         grounded = false;
+    }
+
+    public bool IsMoving()
+    {
+        Vector3 horizontalVel = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        return horizontalVel.magnitude > 0.1f;
+    }
+
+    public bool IsCrouching()
+    {
+        return isCrouching;
+    }
+
+    public bool InAir()
+    {
+        return !grounded;
     }
 
 }

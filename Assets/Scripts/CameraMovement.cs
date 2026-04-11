@@ -5,49 +5,63 @@ public class CameraMovement : MonoBehaviour
     public Transform cameraTransform;
 
     public float cameraBobAmount = 0.05f;
-    public float bobbingFrequency = 1f;
-    
-    private bool canBob = false;
+    public float bobbingFrequency = 6f;
+    public float smoothTime = 0.08f;
+
     private float canBobTimer = 0f;
+
+    private Vector3 originalPosition;
+    private Vector3 currentVelocity;
+    private Vector3 targetPosition;
+
+    private PlayerMovement movement;
 
     private void Start()
     {
         if (cameraTransform == null)
-            cameraTransform = Camera.main.transform;
+            cameraTransform = transform;
+
+        originalPosition = cameraTransform.localPosition;
+        targetPosition = originalPosition;
+
+        movement = GetComponentInParent<PlayerMovement>();
     }
 
     private void Update()
     {
-        if (cameraTransform == null)
+        if (!cameraTransform || !movement)
             return;
 
-        CheckMovement();
-
-        if (canBob) canBobTimer += Time.deltaTime;
-        if (canBobTimer > 0.25f)
+        if (movement.IsCrouching() || movement.InAir())
         {
-            float bobbingOffset = Mathf.Sin(Time.time * bobbingFrequency) * cameraBobAmount;
-            cameraTransform.localPosition = new Vector3(
-                cameraTransform.localPosition.x,
-                cameraTransform.localPosition.y + bobbingOffset,
-                cameraTransform.localPosition.z);
+            targetPosition = originalPosition;
         }
-            
-    }
-
-    private void CheckMovement()
-    {
-        if (Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.LeftControl))
+        else if (movement.IsMoving())
         {
-            canBob = false;
-            canBobTimer = 0f;
+            canBobTimer += Time.deltaTime;
+
+            if (canBobTimer > 0.25f)
+            {
+                float bobbingOffset = Mathf.Sin(Time.time * bobbingFrequency) * cameraBobAmount;
+
+                targetPosition = new Vector3(
+                    originalPosition.x,
+                    originalPosition.y + bobbingOffset,
+                    originalPosition.z
+                );
+            }
         }
-        else if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
-            canBob = true;
         else
         {
-            canBob = false;
             canBobTimer = 0f;
+            targetPosition = originalPosition;
         }
+
+        cameraTransform.localPosition = Vector3.SmoothDamp(
+            cameraTransform.localPosition,
+            targetPosition,
+            ref currentVelocity,
+            smoothTime
+        );
     }
 }
