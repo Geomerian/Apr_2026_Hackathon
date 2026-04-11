@@ -69,7 +69,6 @@ public class HexagonMesh : MonoBehaviour
         var meshCollider = GetComponent<MeshCollider>();
         if (meshCollider != null)
         {
-            meshCollider.sharedMesh = null;
             meshCollider.sharedMesh = mesh;
         }
     }
