@@ -346,7 +346,6 @@ public class PlayerMovement : MonoBehaviour
         grounded = false;
     }
 
-<<<<<<< Updated upstream
     public bool IsMoving()
     {
         Vector3 horizontalVel = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
@@ -363,7 +362,6 @@ public class PlayerMovement : MonoBehaviour
         return !grounded;
     }
 
-=======
     public void ApplyMultiplier(float multiplier)
     {
         // needs rework
@@ -372,5 +370,4 @@ public class PlayerMovement : MonoBehaviour
         slideCounterMovement *= (multiplier + 1);
         Debug.Log("Applied multiplier: " + multiplier);
     }
->>>>>>> Stashed changes
 }
