@@ -157,7 +157,7 @@ public class PlayerMovement : MonoBehaviour
 
                 float currentMoveSpeed = maxSpeed;
 
-
+                
                 Vector3 targetVelocity = moveDir * currentMoveSpeed;
                 Vector3 vel = rb.linearVelocity;
 
@@ -240,7 +240,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 vel = rb.linearVelocity;
         Vector3 horizontalVel = new Vector3(vel.x, 0, vel.z);
 
-        if (grounded && Math.Abs(x) < 0.01f && Math.Abs(y) < 0.01f && horizontalVel.magnitude < 0.1f)
+        if(grounded && Math.Abs(x) < 0.01f && Math.Abs(y) < 0.01f && horizontalVel.magnitude < 0.1f)
         {
             rb.linearVelocity = new Vector3(0, vel.y, 0);
         }
