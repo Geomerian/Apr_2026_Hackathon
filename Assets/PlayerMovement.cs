@@ -46,6 +46,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 normalVector = Vector3.up;
     private Vector3 wallNormalVector;
 
+    public bool accelerationMovement = false;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -108,51 +110,60 @@ public class PlayerMovement : MonoBehaviour
 
     private void Movement()
     {
-        //Extra gravity
         rb.AddForce(Vector3.down * Time.deltaTime * gravityStrength);
 
-        //Find actual velocity relative to where player is looking
         Vector2 mag = FindVelRelativeToLook();
         float xMag = mag.x, yMag = mag.y;
 
-        //Counteract sliding and sloppy movement
-        CounterMovement(x, y, mag);
-
-        //If holding jump && ready to jump, then jump
         if (readyToJump && jumping) Jump();
 
-        //Set max speed
         float maxSpeed = this.maxSpeed;
 
-        //If sliding down a ramp, add force down so player stays grounded and also builds speed
         if (crouching && grounded && readyToJump)
         {
             rb.AddForce(Vector3.down * Time.deltaTime * 3000);
             return;
         }
 
-        //If speed is larger than maxspeed, cancel out the input so you don't go over max speed
-        if (x > 0 && xMag > maxSpeed) x = 0;
-        if (x < 0 && xMag < -maxSpeed) x = 0;
-        if (y > 0 && yMag > maxSpeed) y = 0;
-        if (y < 0 && yMag < -maxSpeed) y = 0;
+        float multiplier = 1f;
+        float multiplierV = 1f;
 
-        //Some multipliers
-        float multiplier = 1f, multiplierV = 1f;
-
-        // Movement in air
         if (!grounded)
         {
-            multiplier = 0.5f;
-            multiplierV = 0.5f;
+            multiplier = 500f;
+            multiplierV = 500f;
         }
 
-        // Movement while sliding
-        if (grounded && crouching) multiplierV = 0f;
+        if (grounded && crouching)
+            multiplierV = 0f;
 
-        //Apply forces to move player
-        rb.AddForce(orientation.transform.forward * y * moveSpeed * Time.deltaTime * multiplier * multiplierV);
-        rb.AddForce(orientation.transform.right * x * moveSpeed * Time.deltaTime * multiplier);
+        if (accelerationMovement || !grounded)
+        {
+            CounterMovement(x, y, mag);
+
+            if (x > 0 && xMag > maxSpeed) x = 0;
+            if (x < 0 && xMag < -maxSpeed) x = 0;
+            if (y > 0 && yMag > maxSpeed) y = 0;
+            if (y < 0 && yMag < -maxSpeed) y = 0;
+
+            rb.AddForce(orientation.forward * y * moveSpeed * Time.deltaTime * multiplierV);
+            rb.AddForce(orientation.right * x * moveSpeed * Time.deltaTime * multiplier);
+        }
+        else
+        {
+            if (!crouching)
+            {
+                Vector3 moveDir = (orientation.forward * y + orientation.right * x).normalized;
+
+                float currentMoveSpeed = maxSpeed;
+
+                
+                Vector3 targetVelocity = moveDir * currentMoveSpeed;
+                Vector3 vel = rb.linearVelocity;
+
+                rb.linearVelocity = new Vector3(targetVelocity.x, vel.y, targetVelocity.z);
+            }
+        }
     }
 
     private void Jump()
@@ -196,9 +207,10 @@ public class PlayerMovement : MonoBehaviour
         orientation.localRotation = Quaternion.Euler(0f, desiredX, 0f);
     }
 
+
     private void CounterMovement(float x, float y, Vector2 mag)
     {
-        if (!grounded || jumping) return;
+        if (!grounded) return;
 
         //Slow down sliding
         if (crouching)
