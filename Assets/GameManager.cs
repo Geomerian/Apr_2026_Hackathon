@@ -5,8 +5,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public LevelStates levelStates;
-
     [Header("Player")]
     public GameObject currentPlayer;
 
@@ -33,10 +31,6 @@ public class GameManager : MonoBehaviour
     public GameObject bargainingManager; // assigned in Inspector, inactive by default
 
     public LevelStates levelStates;
-    [Header("Respawns")]
-    public Transform[] stageRespawns = new Transform[4];
-
-    private MainMenu mainMenu;
 
     void Awake()
     {
@@ -51,10 +45,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        mainMenu = FindObjectOfType<MainMenu>();
-        if(mainMenu) currentStage = mainMenu.levelChosen;
-        RespawnPlayer(currentStage);
-
         if (currentStage == 0)
             StartCoroutine(PlayStageCutscene(introCutscene));
     }
@@ -82,7 +72,7 @@ public class GameManager : MonoBehaviour
 
         SetCutsceneState(false);
 
-        // Stage 0 intro done ï¿½ advance to stage 1
+        // Stage 0 intro done — advance to stage 1
         if (currentStage == 0)
             AdvanceStage();
     }
@@ -139,19 +129,8 @@ public class GameManager : MonoBehaviour
         levelStates.ResetLevel();
     }
 
-    // void RespawnPlayer(int stage)
-    // {
-    //     Transform spawnPoint = stageRespawns[stage];
-
-    //     // do teleportation here
-    // }
-
-    bool isCurrentlyCutscene()
+    bool isInCutsceneStage()
     {
-        if (currentStage == 0 || currentStage == 3 || currentStage == 6)
-        {
-            return true;
-        }
-        return false;
+        return currentStage == 0 || currentStage == 3 || currentStage == 6;
     }
 }
