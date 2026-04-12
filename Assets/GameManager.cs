@@ -14,9 +14,9 @@ public class GameManager : MonoBehaviour
     // 1 = denial
     // 2 = anger
     // 3 = bargaining (cutscene)
-    // 3 = depression
-    // 4 = acceptance 
-    // 5 = void (cutscene)
+    // 4 = depression
+    // 5 = acceptance 
+    // 6 = void (cutscene)
 
     [Header("Respawns")]
     public Transform[] stageRespawns = new Transform[4];
@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        SpawnPlayerAtStage(currentStage);
+        RespawnPlayer(currentStage);
     }
 
     // cutscene
@@ -70,7 +70,6 @@ public class GameManager : MonoBehaviour
 
     void RespawnPlayer(int stage)
     {
-        if (playerPrefab == null) return;
 
         Transform spawnPoint = stageRespawns[stage];
 
