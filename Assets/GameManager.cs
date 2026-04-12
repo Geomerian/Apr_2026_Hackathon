@@ -27,7 +27,10 @@ public class GameManager : MonoBehaviour
     public string introCutscene;   // plays at stage 0
     public string voidCutscene;    // plays at stage 6
 
-    //public LevelStates levelStates;
+    [Header("Stage Objects")]
+    public GameObject bargainingManager; // assigned in Inspector, inactive by default
+
+    public LevelStates levelStates;
 
     void Awake()
     {
@@ -107,8 +110,9 @@ public class GameManager : MonoBehaviour
 
             if (currentStage == 3)
             {
-                //levelStates.NextLevel();
-                // BargainingSequence handles its own cutscene
+                levelStates.NextLevel();
+                if (bargainingManager != null)
+                    bargainingManager.SetActive(true);
             }
             else if (currentStage == 6)
             {
@@ -122,7 +126,7 @@ public class GameManager : MonoBehaviour
     // ----------------------------
     public void RespawnPlayer()
     {
-        //levelStates.ResetLevel();
+        levelStates.ResetLevel();
     }
 
     bool isInCutsceneStage()
