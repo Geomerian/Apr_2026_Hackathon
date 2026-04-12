@@ -1,0 +1,62 @@
+# Blender 5.1.0 MTL File: 'LowPoly Trees.blend'
+# www.blender.org
+
+newmtl Leaf
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl TexturesCom_Branches0014_1_masked_S
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl Tree_Branch
+Ns 360.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl bark
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/Users/antho/Downloads/PSX Nature Volume 1/PSX Nature Volume 1/LowPoly Nature Textures/TexturesCom_Tree_BeechBranch01_512_albedo.tif
+map_Ns C:/Users/antho/Downloads/PSX Nature Volume 1/PSX Nature Volume 1/LowPoly Nature Textures/oak_albedo.tif
+
+newmtl birch
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/Users/antho/Downloads/PSX Nature Volume 1/PSX Nature Volume 1/LowPoly Nature Textures/birch_albedo.tif
+map_Ns C:/Users/antho/Downloads/Desktop/NAture/birch_roughness.tif
+
+newmtl oak
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/Users/antho/Downloads/Desktop/NAture/oak_albedo.tif
+map_Ns C:/Users/antho/Downloads/Desktop/NAture/oak_roughness.tif
