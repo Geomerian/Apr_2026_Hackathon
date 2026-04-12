@@ -6,6 +6,6 @@ public class KillerBranch : MonoBehaviour
     {
         if (!collision.collider.CompareTag("Player")) return;
 
-        Destroy(collision.gameObject);
+        LevelStates.Instance.ResetLevel();
     }
 }

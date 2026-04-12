@@ -18,7 +18,21 @@ public class LevelStates : MonoBehaviour
     public GameObject player;
 
     public GameObject denialAcceptance;
+
+    //Singleton
+    public static LevelStates Instance;
+
     //public GameObject angerDepression;
+
+    private void Start()
+    {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     public void StartDenial()
     {
@@ -56,7 +70,7 @@ public class LevelStates : MonoBehaviour
                 player.transform.position = levelPositions[(int)currentState];
                 break;
             case LevelState.Anger:
-                currentState = LevelState.Bargaining;
+                currentState = LevelState.Depression;
                 // cutscenes
                 player.transform.position = levelPositions[(int)currentState]; // player tp'ed to somewhere far
                 break;
@@ -69,6 +83,7 @@ public class LevelStates : MonoBehaviour
                 currentState = LevelState.Acceptance;
                 denialAcceptance.GetComponent<WaterRiser>().AcceptanceSetup();
                 player.transform.position = levelPositions[(int)currentState];
+                player.GetComponent<PlayerMovement>().maryPoppinsMode = true;
                 break;
             case LevelState.Acceptance:
                 Debug.Log("Game Over");

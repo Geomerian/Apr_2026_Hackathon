@@ -20,10 +20,7 @@ public class WaterRiser : MonoBehaviour
 
     private void Start()
     {
-        denialTP.SetActive(false);
-        malcom.SetActive(true);
         malcomTP.position = malcom.transform.position;
-        malcom.SetActive(false);
     }
 
     private void Update()
