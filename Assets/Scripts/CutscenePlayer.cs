@@ -88,4 +88,19 @@ public class CutsceneManager : MonoBehaviour
         if (uiRoot != null && hideUIWhenPlaying)
             uiRoot.SetActive(false);
     }
+
+    public void ShowImage(Texture tex)
+    {
+        if (uiRoot != null)
+            uiRoot.SetActive(true);
+
+        if (screenImage != null)
+            screenImage.texture = tex;
+    }
+
+    public void HideImage()
+    {
+        if (uiRoot != null)
+            uiRoot.SetActive(false);
+    }
 }
