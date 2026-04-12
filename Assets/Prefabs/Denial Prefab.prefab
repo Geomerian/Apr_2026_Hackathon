@@ -995,7 +995,11 @@ MonoBehaviour:
   RiseSpeed: 0.1
   Player: {fileID: 0}
   Camera: {fileID: 0}
+  levelStates: {fileID: 0}
   lungCapacity: 3
+  denialTP: {fileID: 0}
+  acceptanceTP: {fileID: 0}
+  malcom: {fileID: 0}
 --- !u!1 &5114571972967533426
 GameObject:
   m_ObjectHideFlags: 0

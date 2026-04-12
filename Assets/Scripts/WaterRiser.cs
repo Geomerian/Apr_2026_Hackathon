@@ -7,11 +7,24 @@ public class WaterRiser : MonoBehaviour
 
     public GameObject Player;
     public Transform Camera;
+    public GameObject levelStates;
 
     private float submersion = 0.0f;
     public float lungCapacity = 3.0f;
     private float breathTimer = 0.0f;
 
+    public GameObject denialTP;
+    public GameObject acceptanceTP;
+    public GameObject malcom;
+    private Transform malcomTP;
+
+    private void Start()
+    {
+        denialTP.SetActive(false);
+        malcom.SetActive(true);
+        malcomTP.position = malcom.transform.position;
+        malcom.SetActive(false);
+    }
 
     private void Update()
     {
@@ -47,7 +60,7 @@ public class WaterRiser : MonoBehaviour
                 breathTimer += Time.deltaTime;
                 if (breathTimer >= lungCapacity)
                 {
-                    Destroy(Player);
+                    levelStates.GetComponent<LevelStates>().ResetLevel();
                 }
             }
             else
@@ -61,13 +74,20 @@ public class WaterRiser : MonoBehaviour
 
     public void DenialSetup()
     {
+        denialTP.SetActive(true);
+        acceptanceTP.SetActive(false);
+        malcom.SetActive(false);
         WaterPlane.position = new Vector3(WaterPlane.position.x, -4f, WaterPlane.position.z);
         RiseSpeed = 0.1f;
     }
 
     public void AcceptanceSetup()
     {
-        WaterPlane.position = new Vector3(WaterPlane.position.x, 7f, WaterPlane.position.z);
-        RiseSpeed = -0.1f;
+        denialTP.SetActive(false);
+        acceptanceTP.SetActive(true);
+        malcom.SetActive(true);
+        malcomTP.position = malcom.transform.position;
+        WaterPlane.position = new Vector3(WaterPlane.position.x, 6f, WaterPlane.position.z);
+        RiseSpeed = -0.5f;
     }
 }
