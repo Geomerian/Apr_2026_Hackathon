@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         mainMenu = FindObjectOfType<MainMenu>();
-        currentStage = mainMenu.levelChosen;
+        if(mainMenu) currentStage = mainMenu.levelChosen;
         RespawnPlayer(currentStage);
     }
 
@@ -62,21 +62,21 @@ public class GameManager : MonoBehaviour
     public void AdvanceStage()
     {
         SetStage(currentStage + 1);
-        if(isCurrentlyCutscene())
-        {
-            if (currentStage == 1) { 
-                levelStates.StartDenial();
-            }
-            if (currentStage == 3) {
-                levelStates.NextLevel();
-            }
-            SetCutsceneState(true);
-        }
-        else
-        {
+        //if(isCurrentlyCutscene())
+        //{
+        //    if (currentStage == 1) { 
+        //        levelStates.StartDenial();
+        //    }
+        //    if (currentStage == 3) {
+        //        levelStates.NextLevel();
+        //    }
+        //    SetCutsceneState(true);
+        //}
+        //else
+        //{
             levelStates.NextLevel();
             SetCutsceneState(false);
-        }
+        //}
     }
 
     // respawn system

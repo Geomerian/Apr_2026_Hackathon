@@ -78,12 +78,13 @@ public class LevelStates : MonoBehaviour
                 currentState = LevelState.Depression;
                 // angerdepression
                 player.transform.position = levelPositions[(int)currentState];
+                player.GetComponent<PlayerMovement>().maryPoppinsMode = true;
                 break;
             case LevelState.Depression:
+                player.GetComponent<PlayerMovement>().maryPoppinsMode = false;
                 currentState = LevelState.Acceptance;
                 denialAcceptance.GetComponent<WaterRiser>().AcceptanceSetup();
                 player.transform.position = levelPositions[(int)currentState];
-                player.GetComponent<PlayerMovement>().maryPoppinsMode = true;
                 break;
             case LevelState.Acceptance:
                 Debug.Log("Game Over");

@@ -16,11 +16,9 @@ public class WaterRiser : MonoBehaviour
     public GameObject denialTP;
     public GameObject acceptanceTP;
     public GameObject malcom;
-    private Transform malcomTP;
 
     private void Start()
     {
-        malcomTP.position = malcom.transform.position;
     }
 
     private void Update()
@@ -83,7 +81,6 @@ public class WaterRiser : MonoBehaviour
         denialTP.SetActive(false);
         acceptanceTP.SetActive(true);
         malcom.SetActive(true);
-        malcomTP.position = malcom.transform.position;
         WaterPlane.position = new Vector3(WaterPlane.position.x, 6f, WaterPlane.position.z);
         RiseSpeed = -0.5f;
     }
