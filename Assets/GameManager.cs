@@ -57,7 +57,6 @@ public class GameManager : MonoBehaviour
         SetCutsceneState(true);
         cutseneManager.Play(cutsceneName);
 
-        // Wait one frame, then wait for video to START (up to 1s), then wait for it to END
         yield return null;
 
         float timeout = 1f;
@@ -72,7 +71,6 @@ public class GameManager : MonoBehaviour
 
         SetCutsceneState(false);
 
-        // Stage 0 intro done — advance to stage 1
         if (currentStage == 0)
             AdvanceStage();
     }

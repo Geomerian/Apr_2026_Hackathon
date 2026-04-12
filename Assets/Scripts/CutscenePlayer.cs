@@ -60,6 +60,7 @@ public class CutsceneManager : MonoBehaviour
     {
         if (clip == null) return;
 
+        screenImage.gameObject.SetActive(true);
         //if (uiRoot != null && hideUIWhenPlaying)
         //    uiRoot.SetActive(true);
 
@@ -85,8 +86,10 @@ public class CutsceneManager : MonoBehaviour
     {
         videoPlayer.Stop();
 
+
         //if (uiRoot != null && hideUIWhenPlaying)
         //    uiRoot.SetActive(false);
+        screenImage.gameObject.SetActive(false);
     }
 
     public void ShowImage(Texture tex)
