@@ -5,12 +5,18 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [Header("Player")]
-    public GameObject playerPrefab;
     public GameObject currentPlayer;
 
     [Header("State")]
     public bool inCutscene = false;
-    public int currentStage = 0; // 0 - 3 (4 stages total)
+    public int currentStage = 0; 
+    // 0 = intro (cutscene)
+    // 1 = denial
+    // 2 = anger
+    // 3 = bargaining (cutscene)
+    // 3 = depression
+    // 4 = acceptance 
+    // 5 = void (cutscene)
 
     [Header("Respawns")]
     public Transform[] stageRespawns = new Transform[4];
@@ -59,15 +65,15 @@ public class GameManager : MonoBehaviour
         if (currentPlayer != null)
             Destroy(currentPlayer);
 
-        SpawnPlayerAtStage(currentStage);
+        RespawnPlayer(currentStage);
     }
 
-    void SpawnPlayerAtStage(int stage)
+    void RespawnPlayer(int stage)
     {
         if (playerPrefab == null) return;
 
         Transform spawnPoint = stageRespawns[stage];
 
-        currentPlayer = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        // do teleportation here
     }
 }
