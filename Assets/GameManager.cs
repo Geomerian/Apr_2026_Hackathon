@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Cutscene Manager")]
     public CutsceneManager cutseneManager;
-    public LevelStates levelStates;
+    //public LevelStates levelStates;
 
     void Awake()
     {
@@ -50,8 +50,8 @@ public class GameManager : MonoBehaviour
     {
         inCutscene = state;
 
-        if (currentPlayer != null)
-            currentPlayer.SetActive(!state);
+        //if (currentPlayer != null)
+        //    currentPlayer.SetActive(!state);
     }
 
     // stage control
@@ -66,13 +66,13 @@ public class GameManager : MonoBehaviour
         if(!isInCutsceneStage())
         {
             inCutscene = false;
-            levelStates.NextLevel();
+            //levelStates.NextLevel();
         } else 
         {
             inCutscene = true;
             if(currentStage == 3)
             {
-                levelStates.NextLevel();
+                //levelStates.NextLevel();
             }
             // make appropriate calls to CutsceneManager
         }
@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     // respawn system
     public void RespawnPlayer()
     {
-        levelStates.ResetLevel();
+        //levelStates.ResetLevel();
     }
 
     bool isInCutsceneStage()

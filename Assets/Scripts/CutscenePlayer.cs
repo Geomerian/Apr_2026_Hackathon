@@ -17,7 +17,7 @@ public class CutsceneManager : MonoBehaviour
     [Header("References")]
     public VideoPlayer videoPlayer;
     public RawImage screenImage;
-    public GameObject uiRoot;
+    //public GameObject uiRoot;
 
     [Header("Settings")]
     public bool hideUIWhenPlaying = true;
@@ -29,8 +29,8 @@ public class CutsceneManager : MonoBehaviour
         videoPlayer.prepareCompleted += OnPrepared;
         videoPlayer.loopPointReached += OnCutsceneEnd;
 
-        if (uiRoot != null)
-            uiRoot.SetActive(false);
+        //if (uiRoot != null)
+        //    uiRoot.SetActive(false);
     }
 
     // Play by index
@@ -60,8 +60,8 @@ public class CutsceneManager : MonoBehaviour
     {
         if (clip == null) return;
 
-        if (uiRoot != null && hideUIWhenPlaying)
-            uiRoot.SetActive(true);
+        //if (uiRoot != null && hideUIWhenPlaying)
+        //    uiRoot.SetActive(true);
 
         videoPlayer.Stop();
         videoPlayer.clip = clip;
@@ -85,22 +85,22 @@ public class CutsceneManager : MonoBehaviour
     {
         videoPlayer.Stop();
 
-        if (uiRoot != null && hideUIWhenPlaying)
-            uiRoot.SetActive(false);
+        //if (uiRoot != null && hideUIWhenPlaying)
+        //    uiRoot.SetActive(false);
     }
 
     public void ShowImage(Texture tex)
     {
-        if (uiRoot != null)
-            uiRoot.SetActive(true);
+        //if (uiRoot != null)
+        //    uiRoot.SetActive(true);
 
-        if (screenImage != null)
-            screenImage.texture = tex;
+        //if (screenImage != null)
+        //    screenImage.texture = tex;
     }
 
     public void HideImage()
     {
-        if (uiRoot != null)
-            uiRoot.SetActive(false);
+        //if (uiRoot != null)
+        //    uiRoot.SetActive(false);
     }
 }

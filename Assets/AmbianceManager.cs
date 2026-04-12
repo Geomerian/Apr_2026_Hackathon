@@ -65,13 +65,13 @@ public class AmbianceManager : MonoBehaviour
     {
         while (true)
         {
-            int gmStage = GameManager.Instance.currentStage;
+            //int gmStage = GameManager.Instance.currentStage;
 
-            if (gmStage != currentStage)
-            {
-                ApplyStage(gmStage);
-                currentStage = gmStage;
-            }
+            //if (gmStage != currentStage)
+            //{
+            //    ApplyStage(gmStage);
+            //    currentStage = gmStage;
+            //}
 
             yield return new WaitForSeconds(1f);
         }
