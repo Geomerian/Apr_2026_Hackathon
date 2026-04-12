@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5950196980144209786}
   - component: {fileID: 3657421150765229065}
   - component: {fileID: 7909093191170097079}
+  - component: {fileID: 311848931042955555}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -159,9 +160,6 @@ MonoBehaviour:
   maxSpeed: 5
   gravityStrength: 300
   grounded: 0
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 8
   counterMovement: 0.3
   maxSlopeAngle: 35
   slideForce: 500
@@ -183,6 +181,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 819d2b4dc7a32eb4bbb35cb7123f59a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &311848931042955555
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2139208010292691951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe04d0b8960f1a47b852ebad215bdb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageFootsteps:
+  - stage: 1
+    clips:
+    - {fileID: 0}
+  - stage: 2
+    clips:
+    - {fileID: 0}
+  - stage: 4
+    clips:
+    - {fileID: 0}
+  - stage: 5
+    clips:
+    - {fileID: 0}
+  waterFootsteps: []
+  stepCooldown: 0.4
+  volume: 1
+  inWater: 0
 --- !u!1 &6301414932186371445
 GameObject:
   m_ObjectHideFlags: 0

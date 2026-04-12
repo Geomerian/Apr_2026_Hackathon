@@ -52,17 +52,25 @@ MonoBehaviour:
     sfxIntervalMax: 0
     sfxRadius: 0
   - name: Denial
-    musicLayers: []
+    musicLayers:
+    - {fileID: 8300000, guid: 90ca7c23ead608846b0694360e5b0658, type: 3}
+    - {fileID: 8300000, guid: 8d74f1933a5445c45be83d8812bed0b2, type: 3}
+    - {fileID: 8300000, guid: bf39602d4339921459969060b040f43c, type: 3}
     sfxClips: []
     sfxIntervalMin: 0
     sfxIntervalMax: 0
     sfxRadius: 0
   - name: Anger
-    musicLayers: []
-    sfxClips: []
-    sfxIntervalMin: 0
-    sfxIntervalMax: 0
-    sfxRadius: 0
+    musicLayers:
+    - {fileID: 8300000, guid: 9097fb7d0125bb04db32574e277b0424, type: 3}
+    - {fileID: 8300000, guid: 5a4e09be44bb1914aa19718c5ec9cb1b, type: 3}
+    sfxClips:
+    - {fileID: 8300000, guid: 25e9fc3f93302ca4db06693067393e8b, type: 3}
+    - {fileID: 8300000, guid: fef71f618f34efb478f89f1a0565631d, type: 3}
+    - {fileID: 8300000, guid: bd14c1e167b1185478571ab55efb2d9e, type: 3}
+    sfxIntervalMin: 5
+    sfxIntervalMax: 13
+    sfxRadius: 10
   - name: Bargaining Cutscene
     musicLayers: []
     sfxClips: []
@@ -70,17 +78,23 @@ MonoBehaviour:
     sfxIntervalMax: 0
     sfxRadius: 0
   - name: Depression
-    musicLayers: []
+    musicLayers:
+    - {fileID: 8300000, guid: 9ec9edd3a74731146baa465fd264705f, type: 3}
+    - {fileID: 8300000, guid: a93cbf2c913d0c74ea77cbf02d5c0563, type: 3}
     sfxClips: []
     sfxIntervalMin: 0
     sfxIntervalMax: 0
     sfxRadius: 0
   - name: Acceptance
-    musicLayers: []
-    sfxClips: []
-    sfxIntervalMin: 0
-    sfxIntervalMax: 0
-    sfxRadius: 0
+    musicLayers:
+    - {fileID: 8300000, guid: 78edbecb33d235c4a9b34c67f5bb8db4, type: 3}
+    - {fileID: 8300000, guid: fed93c5368834774885691d8c3e6a9da, type: 3}
+    - {fileID: 8300000, guid: 8dca1e9ec239dbd4abf094a7ae3e4d98, type: 3}
+    sfxClips:
+    - {fileID: 8300000, guid: a55d600743455bd4bb6a2120e74fbbb5, type: 3}
+    sfxIntervalMin: 5
+    sfxIntervalMax: 13
+    sfxRadius: 5
   - name: Void Cutscene
     musicLayers: []
     sfxClips: []

@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     void Start()
@@ -51,7 +50,7 @@ public class GameManager : MonoBehaviour
     // stage control
     public void SetStage(int stage)
     {
-        currentStage = Mathf.Clamp(stage, 0, 3);
+        currentStage = Mathf.Clamp(stage, 0, 6);
     }
 
     public void AdvanceStage()
