@@ -216,6 +216,7 @@ public class PlayerMovement : MonoBehaviour
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+        else Debug.Log("Can't jump");
     }
 
     private void ResetJump()
@@ -365,9 +366,9 @@ public class PlayerMovement : MonoBehaviour
     public void ApplyMultiplier(float multiplier)
     {
         // needs rework
-        moveSpeed *= multiplier;
-        jumpForce *= multiplier;
-        slideCounterMovement *= (multiplier + 1);
-        Debug.Log("Applied multiplier: " + multiplier);
+        //moveSpeed *= multiplier;
+        //jumpForce *= multiplier;
+        //slideCounterMovement *= (multiplier + 1);
+        //Debug.Log("Applied multiplier: " + multiplier);
     }
 }

@@ -165,11 +165,12 @@ MonoBehaviour:
   counterMovement: 0.3
   maxSlopeAngle: 35
   slideForce: 500
-  slideCounterMovement: 0.2
+  slideCounterMovement: 300
   jumpForce: 200
   accelerationMovement: 0
   maryPoppinsMode: 0
   maryPoppinsFallSpeed: 3
+  sprintSpeed: 10
 --- !u!114 &7909093191170097079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,5 +334,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 8000602581838453048}
-  cameraBobAmount: 0.01
+  cameraBobAmount: 0.1
   bobbingFrequency: 10
+  smoothTime: 0.08
