@@ -70,8 +70,10 @@ public class GameManager : MonoBehaviour
         } else 
         {
             inCutscene = true;
-            levelStates.NextLevel();
-
+            if(currentStage == 3)
+            {
+                levelStates.NextLevel();
+            }
             // make appropriate calls to CutsceneManager
         }
     }
