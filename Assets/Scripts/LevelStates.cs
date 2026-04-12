@@ -12,16 +12,31 @@ public enum LevelState
 
 public class LevelStates : MonoBehaviour
 {
-    public LevelState currentState = LevelState.Denial;
+    public LevelState currentState;
     public Vector3[] levelPositions;
 
     public GameObject player;
 
     public GameObject denialAcceptance;
-    public GameObject angerDepression;
+
+    //Singleton
+    public static LevelStates Instance;
+
+    //public GameObject angerDepression;
 
     private void Start()
     {
+        if(Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+    public void StartDenial()
+    {
+        currentState = LevelState.Denial;
         denialAcceptance.GetComponent<WaterRiser>().DenialSetup();
         player.transform.position = levelPositions[(int)currentState];
     }
@@ -55,7 +70,7 @@ public class LevelStates : MonoBehaviour
                 player.transform.position = levelPositions[(int)currentState];
                 break;
             case LevelState.Anger:
-                currentState = LevelState.Bargaining;
+                currentState = LevelState.Depression;
                 // cutscenes
                 player.transform.position = levelPositions[(int)currentState]; // player tp'ed to somewhere far
                 break;
@@ -63,8 +78,10 @@ public class LevelStates : MonoBehaviour
                 currentState = LevelState.Depression;
                 // angerdepression
                 player.transform.position = levelPositions[(int)currentState];
+                player.GetComponent<PlayerMovement>().maryPoppinsMode = true;
                 break;
             case LevelState.Depression:
+                player.GetComponent<PlayerMovement>().maryPoppinsMode = false;
                 currentState = LevelState.Acceptance;
                 denialAcceptance.GetComponent<WaterRiser>().AcceptanceSetup();
                 player.transform.position = levelPositions[(int)currentState];
@@ -73,15 +90,16 @@ public class LevelStates : MonoBehaviour
                 Debug.Log("Game Over");
                 // cutscenes
                 return;
-            }
         }
+        Debug.Log("Moving to level: " + currentState);
+    }
+
 
     public void ResetLevel()
     {
         if (currentState == LevelState.Denial)
         {
-            denialAcceptance.GetComponent<WaterRiser>().DenialSetup();
-            player.transform.position = levelPositions[(int)currentState];
+            StartDenial();
         }
         else
         {

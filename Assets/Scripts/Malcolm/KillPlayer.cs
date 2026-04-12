@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class KillPlayer : MonoBehaviour
 {
+    public GameObject levelStates;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Destroy(other.gameObject);
+            levelStates.GetComponent<LevelStates>().ResetLevel();
         }
     }
 }
