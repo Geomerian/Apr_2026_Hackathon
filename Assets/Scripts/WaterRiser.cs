@@ -58,5 +58,16 @@ public class WaterRiser : MonoBehaviour
             Player.GetComponent<PlayerMovement>().ApplyMultiplier(submersion);
         }
     }
-    // maybe some visual water effects 
+
+    public void DenialSetup()
+    {
+        WaterPlane.position = new Vector3(WaterPlane.position.x, -4f, WaterPlane.position.z);
+        RiseSpeed = 0.1f;
+    }
+
+    public void AcceptanceSetup()
+    {
+        WaterPlane.position = new Vector3(WaterPlane.position.x, 7f, WaterPlane.position.z);
+        RiseSpeed = -0.1f;
+    }
 }
