@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class AngerRotation : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    public float speed = 50f;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        transform.Rotate(0f, speed * Time.deltaTime, 0f);
     }
 }
