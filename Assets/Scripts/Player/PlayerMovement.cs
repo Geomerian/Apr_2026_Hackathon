@@ -221,6 +221,7 @@ public class PlayerMovement : MonoBehaviour
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+        else Debug.Log("Can't jump");
     }
 
     private void ResetJump()
