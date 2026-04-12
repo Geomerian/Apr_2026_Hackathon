@@ -21,9 +21,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Cutscene Manager")]
     public CutsceneManager cutseneManager;
-
-    [Header("Respawns")]
-    public Transform[] stageRespawns = new Transform[4];
+    public LevelStates levelStates;
 
     void Awake()
     {
@@ -35,11 +33,16 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+        
+        if(isInCutsceneStage())
+        {
+            // play appropriate cutscene
+        }
     }
 
     void Start()
     {
-        RespawnPlayer(currentStage);
+        
     }
 
     // cutscene
@@ -60,22 +63,32 @@ public class GameManager : MonoBehaviour
     public void AdvanceStage()
     {
         SetStage(currentStage + 1);
+        if(!isInCutsceneStage())
+        {
+            inCutscene = false;
+            levelStates.NextLevel();
+        } else 
+        {
+            inCutscene = true;
+            levelStates.NextLevel();
+
+            // make appropriate calls to CutsceneManager
+        }
     }
 
     // respawn system
     public void RespawnPlayer()
     {
-        if (currentPlayer != null)
-            Destroy(currentPlayer);
-
-        RespawnPlayer(currentStage);
+        levelStates.ResetLevel();
     }
 
-    void RespawnPlayer(int stage)
+    bool isInCutsceneStage()
     {
-
-        Transform spawnPoint = stageRespawns[stage];
-
-        // do teleportation here
+        if(currentStage == 0 || currentStage == 3 || currentStage == 6)
+        {
+            return true;
+        }
+        return false;
     }
+
 }
