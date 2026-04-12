@@ -46,5 +46,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   titleText: {fileID: 0}
   subtitleText: {fileID: 0}
-  displayTime: 5
-  autoHide: 1
+  stageTitles:
+  - stage: 0
+    title: The Lettuce Club
+    subtitle: 
+  - stage: 1
+    title: Denial
+    subtitle: The Washing out Reality
+  - stage: 2
+    title: Anger
+    subtitle: The Gnashing of Teeth
+  - stage: 3
+    title: Bargaining
+    subtitle: 'The Fall '
+  - stage: 4
+    title: Depression
+    subtitle: The Fall and Gray
+  - stage: 5
+    title: Acceptance
+    subtitle: The Return to Senses
+  - stage: 6
+    title: Void
+    subtitle: The End of Everything
+  fadeInTime: 0.5
+  holdTime: 2
+  fadeOutTime: 0.5

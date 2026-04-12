@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     [Header("State")]
     public bool inCutscene = false;
+    public bool hasGilbertSoul = false;
     public int currentStage = 0; 
     // 0 = intro (cutscene)
     // 1 = denial
@@ -17,6 +18,9 @@ public class GameManager : MonoBehaviour
     // 4 = depression
     // 5 = acceptance 
     // 6 = void (cutscene)
+
+    [Header("Cutscene Manager")]
+    public CutsceneManager cutseneManager;
 
     [Header("Respawns")]
     public Transform[] stageRespawns = new Transform[4];
