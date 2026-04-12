@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class Teleporter : MonoBehaviour
 {
-    public LevelStates levelStates;
+    public GameManager gameManager;
 
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            levelStates.NextLevel();
+            gameManager.AdvanceStage();
         }
     }
 }

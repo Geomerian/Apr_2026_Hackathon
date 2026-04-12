@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     [Header("State")]
     public bool inCutscene = false;
+    public bool hasGilbertSoul = false;
     public int currentStage = 0; 
     // 0 = intro (cutscene)
     // 1 = denial
@@ -18,8 +19,9 @@ public class GameManager : MonoBehaviour
     // 5 = acceptance 
     // 6 = void (cutscene)
 
-    [Header("Respawns")]
-    public Transform[] stageRespawns = new Transform[4];
+    [Header("Cutscene Manager")]
+    public CutsceneManager cutseneManager;
+    public LevelStates levelStates;
 
     void Awake()
     {
@@ -31,11 +33,16 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
+        
+        if(isInCutsceneStage())
+        {
+            // play appropriate cutscene
+        }
     }
 
     void Start()
     {
-        RespawnPlayer(currentStage);
+        
     }
 
     // cutscene
@@ -56,22 +63,34 @@ public class GameManager : MonoBehaviour
     public void AdvanceStage()
     {
         SetStage(currentStage + 1);
+        if(!isInCutsceneStage())
+        {
+            inCutscene = false;
+            levelStates.NextLevel();
+        } else 
+        {
+            inCutscene = true;
+            if(currentStage == 3)
+            {
+                levelStates.NextLevel();
+            }
+            // make appropriate calls to CutsceneManager
+        }
     }
 
     // respawn system
     public void RespawnPlayer()
     {
-        if (currentPlayer != null)
-            Destroy(currentPlayer);
-
-        RespawnPlayer(currentStage);
+        levelStates.ResetLevel();
     }
 
-    void RespawnPlayer(int stage)
+    bool isInCutsceneStage()
     {
-
-        Transform spawnPoint = stageRespawns[stage];
-
-        // do teleportation here
+        if(currentStage == 0 || currentStage == 3 || currentStage == 6)
+        {
+            return true;
+        }
+        return false;
     }
+
 }
