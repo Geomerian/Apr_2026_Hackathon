@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxSpeed = 20;
     public float gravityStrength = 9.81f;
     public bool grounded;
-    public LayerMask whatIsGround;
+    //public LayerMask whatIsGround;
 
     public float counterMovement = 0.175f;
     private float threshold = 0.01f;
@@ -137,6 +137,8 @@ public class PlayerMovement : MonoBehaviour
         Vector2 mag = FindVelRelativeToLook();
         float xMag = mag.x, yMag = mag.y;
 
+        Debug.Log("Readytojump: " + readyToJump);
+        Debug.Log("jumping: " + jumping);
         if (readyToJump && jumping) Jump();
 
         
@@ -197,12 +199,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        Debug.Log("Jump function called");
+
         if (grounded && readyToJump)
         {
             if (isCrouching) StopCrouch();
 
             readyToJump = false;
 
+            Debug.Log("Performing jump force");
             //Add jump forces
             rb.AddForce(Vector2.up * jumpForce * 1.5f);
             rb.AddForce(normalVector * jumpForce * 0.5f);
@@ -317,7 +322,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //Make sure we are only checking for walkable layers
         int layer = other.gameObject.layer;
-        if (whatIsGround != (whatIsGround | (1 << layer))) return;
+        //if (whatIsGround != (whatIsGround | (1 << layer))) return;
 
         //Iterate through every collision in a physics update
         for (int i = 0; i < other.contactCount; i++)

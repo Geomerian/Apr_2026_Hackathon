@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8577942207574891800
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 524291880103269141}
+  - component: {fileID: 5242352681173920736}
+  m_Layer: 0
+  m_Name: Ambiance Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &524291880103269141
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577942207574891800}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 450.022, y: 164.93806, z: 1.7697353}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5242352681173920736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577942207574891800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc103f613358dca4e8428f8d8ddfb2ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stages:
+  - name: Introduction Cutscene
+    musicLayers: []
+    sfxClips: []
+    sfxIntervalMin: 0
+    sfxIntervalMax: 0
+    sfxRadius: 0
+  - name: Denial
+    musicLayers:
+    - {fileID: 8300000, guid: 90ca7c23ead608846b0694360e5b0658, type: 3}
+    - {fileID: 8300000, guid: 8d74f1933a5445c45be83d8812bed0b2, type: 3}
+    - {fileID: 8300000, guid: bf39602d4339921459969060b040f43c, type: 3}
+    sfxClips: []
+    sfxIntervalMin: 0
+    sfxIntervalMax: 0
+    sfxRadius: 0
+  - name: Anger
+    musicLayers:
+    - {fileID: 8300000, guid: 9097fb7d0125bb04db32574e277b0424, type: 3}
+    - {fileID: 8300000, guid: 5a4e09be44bb1914aa19718c5ec9cb1b, type: 3}
+    sfxClips:
+    - {fileID: 8300000, guid: 25e9fc3f93302ca4db06693067393e8b, type: 3}
+    - {fileID: 8300000, guid: fef71f618f34efb478f89f1a0565631d, type: 3}
+    - {fileID: 8300000, guid: bd14c1e167b1185478571ab55efb2d9e, type: 3}
+    sfxIntervalMin: 5
+    sfxIntervalMax: 13
+    sfxRadius: 10
+  - name: Bargaining Cutscene
+    musicLayers: []
+    sfxClips: []
+    sfxIntervalMin: 0
+    sfxIntervalMax: 0
+    sfxRadius: 0
+  - name: Depression
+    musicLayers:
+    - {fileID: 8300000, guid: 9ec9edd3a74731146baa465fd264705f, type: 3}
+    - {fileID: 8300000, guid: a93cbf2c913d0c74ea77cbf02d5c0563, type: 3}
+    sfxClips: []
+    sfxIntervalMin: 0
+    sfxIntervalMax: 0
+    sfxRadius: 0
+  - name: Acceptance
+    musicLayers:
+    - {fileID: 8300000, guid: 78edbecb33d235c4a9b34c67f5bb8db4, type: 3}
+    - {fileID: 8300000, guid: fed93c5368834774885691d8c3e6a9da, type: 3}
+    - {fileID: 8300000, guid: 8dca1e9ec239dbd4abf094a7ae3e4d98, type: 3}
+    sfxClips:
+    - {fileID: 8300000, guid: a55d600743455bd4bb6a2120e74fbbb5, type: 3}
+    sfxIntervalMin: 5
+    sfxIntervalMax: 13
+    sfxRadius: 5
+  - name: Void Cutscene
+    musicLayers: []
+    sfxClips: []
+    sfxIntervalMin: 0
+    sfxIntervalMax: 0
+    sfxRadius: 0
+  musicSources: []
+  sfxPoolSize: 10
