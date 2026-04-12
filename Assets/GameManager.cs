@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
         if (!isInCutsceneStage())
         {
             inCutscene = false;
-            //levelStates.NextLevel();
+            levelStates.NextLevel();
         }
         else
         {
