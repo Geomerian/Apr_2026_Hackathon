@@ -86,11 +86,15 @@ MonoBehaviour:
     sfxIntervalMax: 0
     sfxRadius: 0
   - name: Acceptance
-    musicLayers: []
-    sfxClips: []
-    sfxIntervalMin: 0
-    sfxIntervalMax: 0
-    sfxRadius: 0
+    musicLayers:
+    - {fileID: 8300000, guid: 78edbecb33d235c4a9b34c67f5bb8db4, type: 3}
+    - {fileID: 8300000, guid: fed93c5368834774885691d8c3e6a9da, type: 3}
+    - {fileID: 8300000, guid: 8dca1e9ec239dbd4abf094a7ae3e4d98, type: 3}
+    sfxClips:
+    - {fileID: 8300000, guid: a55d600743455bd4bb6a2120e74fbbb5, type: 3}
+    sfxIntervalMin: 5
+    sfxIntervalMax: 13
+    sfxRadius: 5
   - name: Void Cutscene
     musicLayers: []
     sfxClips: []
