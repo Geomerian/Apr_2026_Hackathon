@@ -19,8 +19,15 @@ public class CutsceneManager : MonoBehaviour
     public RawImage screenImage;
     public GameObject uiRoot;
 
-    [Header("Settings")]
-    public bool hideUIWhenPlaying = true;
+    [Header("Image Mode")]
+    public bool isImageMode = false;
+
+    void Awake()
+    {
+        // VideoPlayer must ALWAYS remain enabled
+        if (videoPlayer != null)
+            videoPlayer.gameObject.SetActive(true);
+    }
 
     void Start()
     {
@@ -33,15 +40,15 @@ public class CutsceneManager : MonoBehaviour
             uiRoot.SetActive(false);
     }
 
-    // Play by index
+    // ----------------------------
+    // PLAY CUTSCENES
+    // ----------------------------
     public void Play(int index)
     {
         if (index < 0 || index >= cutscenes.Length) return;
-
         PlayClip(cutscenes[index].clip);
     }
 
-    // Play by name 
     public void Play(string cutsceneName)
     {
         for (int i = 0; i < cutscenes.Length; i++)
@@ -60,7 +67,9 @@ public class CutsceneManager : MonoBehaviour
     {
         if (clip == null) return;
 
-        if (uiRoot != null && hideUIWhenPlaying)
+        isImageMode = false;
+
+        if (uiRoot != null)
             uiRoot.SetActive(true);
 
         videoPlayer.Stop();
@@ -68,8 +77,38 @@ public class CutsceneManager : MonoBehaviour
         videoPlayer.Prepare();
     }
 
+    // ----------------------------
+    // IMAGE MODE
+    // ----------------------------
+    public void ShowImage(Texture tex)
+    {
+        isImageMode = true;
+
+        videoPlayer.Stop();
+
+        if (uiRoot != null)
+            uiRoot.SetActive(true);
+
+        if (screenImage != null)
+            screenImage.texture = tex;
+    }
+
+    public void HideImage()
+    {
+        isImageMode = false;
+
+        if (uiRoot != null)
+            uiRoot.SetActive(false);
+    }
+
+    // ----------------------------
+    // VIDEO CALLBACKS
+    // ----------------------------
     private void OnPrepared(VideoPlayer vp)
     {
+        if (isImageMode)
+            return;
+
         if (screenImage != null)
             screenImage.texture = videoPlayer.texture;
 
@@ -81,25 +120,13 @@ public class CutsceneManager : MonoBehaviour
         StopCutscene();
     }
 
+    // ----------------------------
+    // STOP
+    // ----------------------------
     public void StopCutscene()
     {
         videoPlayer.Stop();
 
-        if (uiRoot != null && hideUIWhenPlaying)
-            uiRoot.SetActive(false);
-    }
-
-    public void ShowImage(Texture tex)
-    {
-        if (uiRoot != null)
-            uiRoot.SetActive(true);
-
-        if (screenImage != null)
-            screenImage.texture = tex;
-    }
-
-    public void HideImage()
-    {
         if (uiRoot != null)
             uiRoot.SetActive(false);
     }

@@ -10,22 +10,23 @@ public class GameManager : MonoBehaviour
     [Header("State")]
     public bool inCutscene = false;
     public bool hasGilbertSoul = false;
-    public int currentStage = 0; 
+
+    public int currentStage = 0;
     // 0 = intro (cutscene)
     // 1 = denial
     // 2 = anger
-    // 3 = bargaining (cutscene)
+    // 3 = bargaining (cutscene + sequence)
     // 4 = depression
-    // 5 = acceptance 
+    // 5 = acceptance
     // 6 = void (cutscene)
 
-    [Header("Cutscene Manager")]
+    [Header("Managers")]
     public CutsceneManager cutseneManager;
     public LevelStates levelStates;
+    public BargainingSequence bargainingSequence;
 
     void Awake()
     {
-        // Singleton setup
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -33,64 +34,107 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        
-        if(isInCutsceneStage())
-        {
-            // play appropriate cutscene
-        }
     }
 
     void Start()
     {
-        
+        ApplyStage(currentStage);
     }
 
-    // cutscene
+    // ----------------------------
+    // CUTSCENE STATE (NO PLAYER DISABLE)
+    // ----------------------------
     public void SetCutsceneState(bool state)
     {
         inCutscene = state;
 
-        if (currentPlayer != null)
-            currentPlayer.SetActive(!state);
+        // IMPORTANT:
+        // Player is NOT disabled anymore.
+        // Systems must respect inCutscene instead.
     }
 
-    // stage control
+    // ----------------------------
+    // STAGE CONTROL
+    // ----------------------------
     public void SetStage(int stage)
     {
         currentStage = Mathf.Clamp(stage, 0, 6);
+        ApplyStage(currentStage);
     }
 
     public void AdvanceStage()
     {
         SetStage(currentStage + 1);
-        if(!isInCutsceneStage())
+    }
+
+    // ----------------------------
+    // CORE ROUTING
+    // ----------------------------
+    void ApplyStage(int stage)
+    {
+        switch (stage)
         {
-            inCutscene = false;
-            levelStates.NextLevel();
-        } else 
-        {
-            inCutscene = true;
-            if(currentStage == 3)
-            {
-                levelStates.NextLevel();
-            }
-            // make appropriate calls to CutsceneManager
+            // ---------------- INTRO ----------------
+            case 0:
+                SetCutsceneState(true);
+                cutseneManager.Play("Intro");
+                break;
+
+            // ---------------- DENIAL ----------------
+            case 1:
+                SetCutsceneState(false);
+                levelStates.currentState = LevelState.Denial;
+                levelStates.ResetLevel();
+                break;
+
+            // ---------------- ANGER ----------------
+            case 2:
+                SetCutsceneState(false);
+                levelStates.currentState = LevelState.Anger;
+                levelStates.ResetLevel();
+                break;
+
+            // ---------------- BARGAINING ----------------
+            case 3:
+                SetCutsceneState(true);
+
+                levelStates.currentState = LevelState.Bargaining;
+                levelStates.ResetLevel();
+
+                if (bargainingSequence != null)
+                    bargainingSequence.StartSequence();
+                else
+                    Debug.LogWarning("BargainingSequence not assigned in GameManager");
+
+                break;
+
+            // ---------------- DEPRESSION ----------------
+            case 4:
+                SetCutsceneState(false);
+                levelStates.currentState = LevelState.Depression;
+                levelStates.ResetLevel();
+                break;
+
+            // ---------------- ACCEPTANCE ----------------
+            case 5:
+                SetCutsceneState(false);
+                levelStates.currentState = LevelState.Acceptance;
+                levelStates.ResetLevel();
+                break;
+
+            // ---------------- VOID ----------------
+            case 6:
+                SetCutsceneState(true);
+                cutseneManager.Play("Void");
+                break;
         }
     }
 
-    // respawn system
+    // ----------------------------
+    // RESPAWN
+    // ----------------------------
     public void RespawnPlayer()
     {
         levelStates.ResetLevel();
     }
-
-    bool isInCutsceneStage()
-    {
-        if(currentStage == 0 || currentStage == 3 || currentStage == 6)
-        {
-            return true;
-        }
-        return false;
-    }
-
 }
