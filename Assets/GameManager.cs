@@ -72,7 +72,10 @@ public class GameManager : MonoBehaviour
         SetCutsceneState(false);
 
         if (currentStage == 0)
+        {
             AdvanceStage();
+            levelStates.StartDenial();
+        }
     }
 
     // ----------------------------
