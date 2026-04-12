@@ -132,7 +132,16 @@ public class BargainingSequence : MonoBehaviour
 
     IEnumerator WaitThenRepeatChoice(int index, State repeatState)
     {
-        yield return null; // Same fix applied for consistency
+        yield return null;
+
+        float timeout = 1f;
+        float elapsed = 0f;
+        while (!cutsceneManager.videoPlayer.isPlaying && elapsed < timeout)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
         yield return new WaitUntil(() => !cutsceneManager.videoPlayer.isPlaying);
 
         GameManager.Instance.SetCutsceneState(false);
@@ -146,7 +155,16 @@ public class BargainingSequence : MonoBehaviour
 
     IEnumerator EndSequence()
     {
-        yield return null; // Same fix applied for consistency
+        yield return null;
+
+        float timeout = 1f;
+        float elapsed = 0f;
+        while (!cutsceneManager.videoPlayer.isPlaying && elapsed < timeout)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
         yield return new WaitUntil(() => !cutsceneManager.videoPlayer.isPlaying);
 
         GameManager.Instance.SetCutsceneState(false);
@@ -193,7 +211,8 @@ public class BargainingSequence : MonoBehaviour
         else
         {
             cutsceneManager.Play(failureCutscenes[index]);
-            StartCoroutine(WaitThenRepeatChoice(index, successState));
+            State repeatState = (index == 0) ? State.Choice1 : State.Choice2;
+            StartCoroutine(WaitThenRepeatChoice(index, repeatState));
         }
     }
 
