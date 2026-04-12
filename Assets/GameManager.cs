@@ -4,13 +4,14 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public LevelStates levelStates;
+
     [Header("Player")]
     public GameObject currentPlayer;
 
     [Header("State")]
     public bool inCutscene = false;
-    public bool hasGilbertSoul = false;
-    public int currentStage = 0; 
+    public int currentStage = 0;
     // 0 = intro (cutscene)
     // 1 = denial
     // 2 = anger
@@ -19,9 +20,10 @@ public class GameManager : MonoBehaviour
     // 5 = acceptance 
     // 6 = void (cutscene)
 
-    [Header("Cutscene Manager")]
-    public CutsceneManager cutseneManager;
-    public LevelStates levelStates;
+    [Header("Respawns")]
+    public Transform[] stageRespawns = new Transform[4];
+
+    private MainMenu mainMenu;
 
     void Awake()
     {
@@ -33,16 +35,13 @@ public class GameManager : MonoBehaviour
         }
 
         Instance = this;
-        
-        if(isInCutsceneStage())
-        {
-            // play appropriate cutscene
-        }
     }
 
     void Start()
     {
-        
+        mainMenu = FindObjectOfType<MainMenu>();
+        currentStage = mainMenu.levelChosen;
+        RespawnPlayer(currentStage);
     }
 
     // cutscene
@@ -63,18 +62,20 @@ public class GameManager : MonoBehaviour
     public void AdvanceStage()
     {
         SetStage(currentStage + 1);
-        if(!isInCutsceneStage())
+        if(isCurrentlyCutscene())
         {
-            inCutscene = false;
-            levelStates.NextLevel();
-        } else 
-        {
-            inCutscene = true;
-            if(currentStage == 3)
-            {
+            if (currentStage == 1) { 
+                levelStates.StartDenial();
+            }
+            if (currentStage == 3) {
                 levelStates.NextLevel();
             }
-            // make appropriate calls to CutsceneManager
+            SetCutsceneState(true);
+        }
+        else
+        {
+            levelStates.NextLevel();
+            SetCutsceneState(false);
         }
     }
 
@@ -84,13 +85,19 @@ public class GameManager : MonoBehaviour
         levelStates.ResetLevel();
     }
 
-    bool isInCutsceneStage()
+    void RespawnPlayer(int stage)
     {
-        if(currentStage == 0 || currentStage == 3 || currentStage == 6)
+        Transform spawnPoint = stageRespawns[stage];
+
+        // do teleportation here
+    }
+
+    bool isCurrentlyCutscene()
+    {
+        if (currentStage == 0 || currentStage == 3 || currentStage == 6)
         {
             return true;
         }
         return false;
     }
-
 }

@@ -2,13 +2,21 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
-    public void StartButton()
+    public int levelChosen = 1;
+
+    private void Awake()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
+        DontDestroyOnLoad(gameObject);
     }
 
     public void QuitButton()
     {
         Application.Quit();
+    }
+
+    public void SetLevel(int level)
+    {
+        levelChosen = level;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(1);
     }
 }

@@ -12,16 +12,17 @@ public enum LevelState
 
 public class LevelStates : MonoBehaviour
 {
-    public LevelState currentState = LevelState.Denial;
+    public LevelState currentState;
     public Vector3[] levelPositions;
 
     public GameObject player;
 
     public GameObject denialAcceptance;
-    public GameObject angerDepression;
+    //public GameObject angerDepression;
 
-    private void Start()
+    public void StartDenial()
     {
+        currentState = LevelState.Denial;
         denialAcceptance.GetComponent<WaterRiser>().DenialSetup();
         player.transform.position = levelPositions[(int)currentState];
     }
@@ -73,15 +74,16 @@ public class LevelStates : MonoBehaviour
                 Debug.Log("Game Over");
                 // cutscenes
                 return;
-            }
         }
+        Debug.Log("Moving to level: " + currentState);
+    }
+
 
     public void ResetLevel()
     {
         if (currentState == LevelState.Denial)
         {
-            denialAcceptance.GetComponent<WaterRiser>().DenialSetup();
-            player.transform.position = levelPositions[(int)currentState];
+            StartDenial();
         }
         else
         {
