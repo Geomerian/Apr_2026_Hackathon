@@ -17,8 +17,12 @@ public class LevelStates : MonoBehaviour
 
     public GameObject player;
 
+    public GameObject denialAcceptance;
+    public GameObject angerDepression;
+
     private void Start()
     {
+        denialAcceptance.GetComponent<WaterRiser>().DenialSetup();
         player.transform.position = levelPositions[(int)currentState];
     }
 
@@ -30,27 +34,59 @@ public class LevelStates : MonoBehaviour
             return;
         }
 
-        if ((int)currentState < levelPositions.Length - 1)
+        //if ((int)currentState < levelPositions.Length - 1)
+        //{
+        //    currentState++;
+        //    player.transform.position = levelPositions[(int)currentState];
+        //    Rigidbody playerRb = player.GetComponent<Rigidbody>();
+        //    if (playerRb) playerRb.angularVelocity = Vector3.zero;
+        //    Debug.Log("Moving to level: " + currentState);
+        //}
+        //else
+        //{
+        //    Debug.Log("Game Over");
+        //}
+
+        switch (currentState)
         {
-            currentState++;
-            player.transform.position = levelPositions[(int)currentState];
-            Rigidbody playerRb = player.GetComponent<Rigidbody>();
-            if (playerRb) playerRb.angularVelocity = Vector3.zero;
-            Debug.Log("Moving to level: " + currentState);
+            case LevelState.Denial:
+                currentState = LevelState.Anger;
+                // angerdepression
+                player.transform.position = levelPositions[(int)currentState];
+                break;
+            case LevelState.Anger:
+                currentState = LevelState.Bargaining;
+                // cutscenes
+                player.transform.position = levelPositions[(int)currentState]; // player tp'ed to somewhere far
+                break;
+            case LevelState.Bargaining:
+                currentState = LevelState.Depression;
+                // angerdepression
+                player.transform.position = levelPositions[(int)currentState];
+                break;
+            case LevelState.Depression:
+                currentState = LevelState.Acceptance;
+                denialAcceptance.GetComponent<WaterRiser>().AcceptanceSetup();
+                player.transform.position = levelPositions[(int)currentState];
+                break;
+            case LevelState.Acceptance:
+                Debug.Log("Game Over");
+                // cutscenes
+                return;
+            }
         }
-        else
-        {
-            Debug.Log("Game Over");
-        }
-    }
 
     public void ResetLevel()
     {
-        player.transform.position = levelPositions[(int)currentState];
-        Rigidbody playerRb = player.GetComponent<Rigidbody>();
-        if (playerRb) playerRb.angularVelocity = Vector3.zero;
-        Debug.Log("Level reset to: " + currentState);
-
-        //reset hazards/enemies depending on level
+        if (currentState == LevelState.Denial)
+        {
+            denialAcceptance.GetComponent<WaterRiser>().DenialSetup();
+            player.transform.position = levelPositions[(int)currentState];
+        }
+        else
+        {
+            currentState--;
+            NextLevel();
+        }
     }
 }
