@@ -52,13 +52,17 @@ MonoBehaviour:
     sfxIntervalMax: 0
     sfxRadius: 0
   - name: Denial
-    musicLayers: []
+    musicLayers:
+    - {fileID: 8300000, guid: 90ca7c23ead608846b0694360e5b0658, type: 3}
+    - {fileID: 8300000, guid: 8d74f1933a5445c45be83d8812bed0b2, type: 3}
+    - {fileID: 8300000, guid: bf39602d4339921459969060b040f43c, type: 3}
     sfxClips: []
     sfxIntervalMin: 0
     sfxIntervalMax: 0
     sfxRadius: 0
   - name: Anger
-    musicLayers: []
+    musicLayers:
+    - {fileID: 0}
     sfxClips: []
     sfxIntervalMin: 0
     sfxIntervalMax: 0
