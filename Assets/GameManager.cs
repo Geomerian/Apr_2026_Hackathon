@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -46,7 +47,22 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         if (currentStage == 0)
+        {
             StartCoroutine(PlayStageCutscene(introCutscene));
+        }
+        else
+        {
+            currentStage -= 1;
+            int levelStateNum = gameStageToLevelState(currentStage);
+            for (int i = 0; i < currentStage; i++)
+            {
+                levelStates.NextLevel();
+            }
+            
+            AdvanceStage();
+        }
+            
+        
     }
 
     // ----------------------------
@@ -102,6 +118,7 @@ public class GameManager : MonoBehaviour
 
         if (!isInCutsceneStage())
         {
+            Debug.Log("Entering Non-Cutscene");
             inCutscene = false;
             levelStates.NextLevel();
         }
@@ -109,6 +126,7 @@ public class GameManager : MonoBehaviour
         {
             inCutscene = true;
 
+            Debug.Log("Entering Cutscene");
             if (currentStage == 3)
             {
                 levelStates.NextLevel();
@@ -117,7 +135,9 @@ public class GameManager : MonoBehaviour
             }
             else if (currentStage == 6)
             {
+                Debug.Log("Playing Stage 6");
                 StartCoroutine(PlayStageCutscene(voidCutscene));
+
             }
         }
     }
@@ -133,5 +153,36 @@ public class GameManager : MonoBehaviour
     bool isInCutsceneStage()
     {
         return currentStage == 0 || currentStage == 3 || currentStage == 6;
+    }
+
+    public int gameStageToLevelState(int level) {
+        int levelStateNum = 0;
+
+        switch (level) {
+            case 0:
+                levelStateNum = 1;
+                break;
+            case 1:
+                levelStateNum = 1;
+                break;
+            case 2:
+                levelStateNum = 2;
+                break;
+            case 3:
+                levelStateNum = 3;
+                break;
+            case 4:
+                levelStateNum = 4;
+                break;
+            case 5:
+                levelStateNum = 5;
+                break;
+            case 6:
+                levelStateNum = 5;
+                break;
+        }
+            
+
+        return levelStateNum;
     }
 }
