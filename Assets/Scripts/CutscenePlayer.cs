@@ -22,22 +22,31 @@ public class CutsceneManager : MonoBehaviour
     [Header("Settings")]
     public bool hideUIWhenPlaying = true;
 
+    [Header("Skip Settings")]
+    public KeyCode skipKey = KeyCode.Escape;
+    public bool allowSkip = true;
+
     void Start()
     {
         videoPlayer.renderMode = VideoRenderMode.RenderTexture;
-
         videoPlayer.prepareCompleted += OnPrepared;
         videoPlayer.loopPointReached += OnCutsceneEnd;
-
         //if (uiRoot != null)
         //    uiRoot.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (allowSkip && videoPlayer.isPlaying && Input.GetKeyDown(skipKey))
+        {
+            StopCutscene();
+        }
     }
 
     // Play by index
     public void Play(int index)
     {
         if (index < 0 || index >= cutscenes.Length) return;
-
         PlayClip(cutscenes[index].clip);
     }
 
@@ -52,18 +61,15 @@ public class CutsceneManager : MonoBehaviour
                 return;
             }
         }
-
         Debug.LogWarning("Cutscene not found: " + cutsceneName);
     }
 
     private void PlayClip(VideoClip clip)
     {
         if (clip == null) return;
-
         screenImage.gameObject.SetActive(true);
         //if (uiRoot != null && hideUIWhenPlaying)
         //    uiRoot.SetActive(true);
-
         videoPlayer.Stop();
         videoPlayer.clip = clip;
         videoPlayer.Prepare();
@@ -73,7 +79,6 @@ public class CutsceneManager : MonoBehaviour
     {
         if (screenImage != null)
             screenImage.texture = videoPlayer.texture;
-
         videoPlayer.Play();
     }
 
@@ -85,8 +90,6 @@ public class CutsceneManager : MonoBehaviour
     public void StopCutscene()
     {
         videoPlayer.Stop();
-
-
         //if (uiRoot != null && hideUIWhenPlaying)
         //    uiRoot.SetActive(false);
         screenImage.gameObject.SetActive(false);
@@ -96,7 +99,6 @@ public class CutsceneManager : MonoBehaviour
     {
         //if (uiRoot != null)
         //    uiRoot.SetActive(true);
-
         //if (screenImage != null)
         //    screenImage.texture = tex;
     }
