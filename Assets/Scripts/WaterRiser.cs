@@ -81,7 +81,7 @@ public class WaterRiser : MonoBehaviour
         denialTP.SetActive(false);
         acceptanceTP.SetActive(true);
         malcom.SetActive(true);
-        WaterPlane.position = new Vector3(WaterPlane.position.x, 6f, WaterPlane.position.z);
-        RiseSpeed = -0.5f;
+        WaterPlane.position = new Vector3(WaterPlane.position.x, 7.5f, WaterPlane.position.z);
+        RiseSpeed = -0.2f;
     }
 }

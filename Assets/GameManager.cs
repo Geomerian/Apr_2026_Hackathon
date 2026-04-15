@@ -1,29 +1,37 @@
 using UnityEngine;
+using System.Collections;
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
-    public LevelStates levelStates;
 
     [Header("Player")]
     public GameObject currentPlayer;
 
     [Header("State")]
     public bool inCutscene = false;
+    public bool hasGilbertSoul = false;
     public int currentStage = 0;
     // 0 = intro (cutscene)
     // 1 = denial
     // 2 = anger
     // 3 = bargaining (cutscene)
     // 4 = depression
-    // 5 = acceptance 
+    // 5 = acceptance
     // 6 = void (cutscene)
 
-    [Header("Respawns")]
-    public Transform[] stageRespawns = new Transform[4];
+    [Header("Cutscene Manager")]
+    public CutsceneManager cutseneManager;
 
-    private MainMenu mainMenu;
+    [Header("Stage Cutscenes")]
+    public string introCutscene;   // plays at stage 0
+    public string voidCutscene;    // plays at stage 6
+
+    [Header("Stage Objects")]
+    public GameObject bargainingManager; // assigned in Inspector, inactive by default
+
+    public LevelStates levelStates;
 
     void Awake()
     {
@@ -33,27 +41,72 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
     }
 
     void Start()
     {
-        mainMenu = FindObjectOfType<MainMenu>();
-        if(mainMenu) currentStage = mainMenu.levelChosen;
-        RespawnPlayer(currentStage);
+        if (currentStage == 0)
+        {
+            StartCoroutine(PlayStageCutscene(introCutscene));
+        }
+        else
+        {
+            currentStage -= 1;
+            int levelStateNum = gameStageToLevelState(currentStage);
+            for (int i = 0; i < currentStage; i++)
+            {
+                levelStates.NextLevel();
+            }
+            
+            AdvanceStage();
+        }
+            
+        
     }
 
-    // cutscene
+    // ----------------------------
+    // CUTSCENE PLAYBACK
+    // ----------------------------
+    IEnumerator PlayStageCutscene(string cutsceneName)
+    {
+        SetCutsceneState(true);
+        cutseneManager.Play(cutsceneName);
+
+        yield return null;
+
+        float timeout = 1f;
+        float elapsed = 0f;
+        while (!cutseneManager.videoPlayer.isPlaying && elapsed < timeout)
+        {
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return new WaitUntil(() => !cutseneManager.videoPlayer.isPlaying);
+
+        SetCutsceneState(false);
+
+        if (currentStage == 0)
+        {
+            AdvanceStage();
+            levelStates.StartDenial();
+        }
+    }
+
+    // ----------------------------
+    // CUTSCENE STATE
+    // ----------------------------
     public void SetCutsceneState(bool state)
     {
         inCutscene = state;
-
-        if (currentPlayer != null)
-            currentPlayer.SetActive(!state);
+        //if (currentPlayer != null)
+        //    currentPlayer.SetActive(!state);
     }
 
-    // stage control
+    // ----------------------------
+    // STAGE CONTROL
+    // ----------------------------
     public void SetStage(int stage)
     {
         currentStage = Mathf.Clamp(stage, 0, 6);
@@ -62,42 +115,74 @@ public class GameManager : MonoBehaviour
     public void AdvanceStage()
     {
         SetStage(currentStage + 1);
-        //if(isCurrentlyCutscene())
-        //{
-        //    if (currentStage == 1) { 
-        //        levelStates.StartDenial();
-        //    }
-        //    if (currentStage == 3) {
-        //        levelStates.NextLevel();
-        //    }
-        //    SetCutsceneState(true);
-        //}
-        //else
-        //{
+
+        if (!isInCutsceneStage())
+        {
+            Debug.Log("Entering Non-Cutscene");
+            inCutscene = false;
             levelStates.NextLevel();
-            SetCutsceneState(false);
-        //}
+        }
+        else
+        {
+            inCutscene = true;
+
+            Debug.Log("Entering Cutscene");
+            if (currentStage == 3)
+            {
+                levelStates.NextLevel();
+                if (bargainingManager != null)
+                    bargainingManager.SetActive(true);
+            }
+            else if (currentStage == 6)
+            {
+                Debug.Log("Playing Stage 6");
+                StartCoroutine(PlayStageCutscene(voidCutscene));
+
+            }
+        }
     }
 
-    // respawn system
+    // ----------------------------
+    // RESPAWN
+    // ----------------------------
     public void RespawnPlayer()
     {
         levelStates.ResetLevel();
     }
 
-    void RespawnPlayer(int stage)
+    bool isInCutsceneStage()
     {
-        Transform spawnPoint = stageRespawns[stage];
-
-        // do teleportation here
+        return currentStage == 0 || currentStage == 3 || currentStage == 6;
     }
 
-    bool isCurrentlyCutscene()
-    {
-        if (currentStage == 0 || currentStage == 3 || currentStage == 6)
-        {
-            return true;
+    public int gameStageToLevelState(int level) {
+        int levelStateNum = 0;
+
+        switch (level) {
+            case 0:
+                levelStateNum = 1;
+                break;
+            case 1:
+                levelStateNum = 1;
+                break;
+            case 2:
+                levelStateNum = 2;
+                break;
+            case 3:
+                levelStateNum = 3;
+                break;
+            case 4:
+                levelStateNum = 4;
+                break;
+            case 5:
+                levelStateNum = 5;
+                break;
+            case 6:
+                levelStateNum = 5;
+                break;
         }
-        return false;
+            
+
+        return levelStateNum;
     }
 }

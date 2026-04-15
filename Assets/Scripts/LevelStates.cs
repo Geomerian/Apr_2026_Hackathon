@@ -70,7 +70,7 @@ public class LevelStates : MonoBehaviour
                 player.transform.position = levelPositions[(int)currentState];
                 break;
             case LevelState.Anger:
-                currentState = LevelState.Depression;
+                currentState = LevelState.Bargaining;
                 // cutscenes
                 player.transform.position = levelPositions[(int)currentState]; // player tp'ed to somewhere far
                 break;

@@ -15,7 +15,6 @@ public class AmbianceManager : MonoBehaviour
 
         [Header("Random SFX")]
         public AudioClip[] sfxClips;
-
         public float sfxIntervalMin = 5f;
         public float sfxIntervalMax = 15f;
         public float sfxRadius = 15f;
@@ -27,12 +26,15 @@ public class AmbianceManager : MonoBehaviour
     [Header("Audio Sources")]
     public AudioSource[] musicSources; // assign 3–5 in inspector
 
+    [Header("Player")]
+    public Transform player;
+
     [Header("SFX Pool")]
     public int sfxPoolSize = 10;
-    private AudioSource[] sfxPool;
 
+    private AudioSource[] sfxPool;
     private int currentStage = -1;
-    private Transform player;
+    private Coroutine sfxCoroutine;
 
     void Awake()
     {
@@ -41,20 +43,14 @@ public class AmbianceManager : MonoBehaviour
 
     void Start()
     {
-        player = GameManager.Instance.currentPlayer?.transform;
-
-        // create SFX pool
         sfxPool = new AudioSource[sfxPoolSize];
-
         for (int i = 0; i < sfxPoolSize; i++)
         {
             GameObject obj = new GameObject("SFX_" + i);
             obj.transform.parent = transform;
-
             AudioSource src = obj.AddComponent<AudioSource>();
             src.spatialBlend = 1f; // 3D sound
             src.playOnAwake = false;
-
             sfxPool[i] = src;
         }
 
@@ -66,13 +62,11 @@ public class AmbianceManager : MonoBehaviour
         while (true)
         {
             int gmStage = GameManager.Instance.currentStage;
-
             if (gmStage != currentStage)
             {
                 ApplyStage(gmStage);
                 currentStage = gmStage;
             }
-
             yield return new WaitForSeconds(1f);
         }
     }
@@ -82,12 +76,16 @@ public class AmbianceManager : MonoBehaviour
     {
         if (stageIndex < 0 || stageIndex >= stages.Length) return;
 
-        StopAllCoroutines(); // stop previous SFX loop
-        StartCoroutine(StageWatcher()); // restart watcher
+        // Stop only the SFX loop, not the StageWatcher
+        if (sfxCoroutine != null)
+        {
+            StopCoroutine(sfxCoroutine);
+            sfxCoroutine = null;
+        }
 
         StageAmbiance stage = stages[stageIndex];
 
-        // 🎵 MUSIC LAYERS
+        // MUSIC LAYERS
         for (int i = 0; i < musicSources.Length; i++)
         {
             if (i < stage.musicLayers.Length && stage.musicLayers[i] != null)
@@ -103,7 +101,7 @@ public class AmbianceManager : MonoBehaviour
         }
 
         // START RANDOM SFX
-        StartCoroutine(RandomSFXLoop(stage));
+        sfxCoroutine = StartCoroutine(RandomSFXLoop(stage));
     }
 
     IEnumerator RandomSFXLoop(StageAmbiance stage)
@@ -112,7 +110,6 @@ public class AmbianceManager : MonoBehaviour
         {
             float wait = Random.Range(stage.sfxIntervalMin, stage.sfxIntervalMax);
             yield return new WaitForSeconds(wait);
-
             PlayRandomSFX(stage);
         }
     }
@@ -122,12 +119,10 @@ public class AmbianceManager : MonoBehaviour
         if (stage.sfxClips.Length == 0 || player == null) return;
 
         AudioClip clip = stage.sfxClips[Random.Range(0, stage.sfxClips.Length)];
-
         AudioSource src = GetFreeSFXSource();
         if (src == null) return;
 
         Vector3 randomPos = player.position + Random.insideUnitSphere * stage.sfxRadius;
-
         src.transform.position = randomPos;
         src.clip = clip;
         src.Play();
@@ -140,7 +135,6 @@ public class AmbianceManager : MonoBehaviour
             if (!sfxPool[i].isPlaying)
                 return sfxPool[i];
         }
-
         return null; // pool exhausted
     }
 }

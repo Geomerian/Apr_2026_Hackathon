@@ -17,27 +17,36 @@ public class CutsceneManager : MonoBehaviour
     [Header("References")]
     public VideoPlayer videoPlayer;
     public RawImage screenImage;
-    public GameObject uiRoot;
+    //public GameObject uiRoot;
 
     [Header("Settings")]
     public bool hideUIWhenPlaying = true;
 
+    [Header("Skip Settings")]
+    public KeyCode skipKey = KeyCode.Escape;
+    public bool allowSkip = true;
+
     void Start()
     {
         videoPlayer.renderMode = VideoRenderMode.RenderTexture;
-
         videoPlayer.prepareCompleted += OnPrepared;
         videoPlayer.loopPointReached += OnCutsceneEnd;
+        //if (uiRoot != null)
+        //    uiRoot.SetActive(false);
+    }
 
-        if (uiRoot != null)
-            uiRoot.SetActive(false);
+    void Update()
+    {
+        if (allowSkip && videoPlayer.isPlaying && Input.GetKeyDown(skipKey))
+        {
+            StopCutscene();
+        }
     }
 
     // Play by index
     public void Play(int index)
     {
         if (index < 0 || index >= cutscenes.Length) return;
-
         PlayClip(cutscenes[index].clip);
     }
 
@@ -52,17 +61,15 @@ public class CutsceneManager : MonoBehaviour
                 return;
             }
         }
-
         Debug.LogWarning("Cutscene not found: " + cutsceneName);
     }
 
     private void PlayClip(VideoClip clip)
     {
         if (clip == null) return;
-
-        if (uiRoot != null && hideUIWhenPlaying)
-            uiRoot.SetActive(true);
-
+        screenImage.gameObject.SetActive(true);
+        //if (uiRoot != null && hideUIWhenPlaying)
+        //    uiRoot.SetActive(true);
         videoPlayer.Stop();
         videoPlayer.clip = clip;
         videoPlayer.Prepare();
@@ -72,7 +79,6 @@ public class CutsceneManager : MonoBehaviour
     {
         if (screenImage != null)
             screenImage.texture = videoPlayer.texture;
-
         videoPlayer.Play();
     }
 
@@ -84,8 +90,22 @@ public class CutsceneManager : MonoBehaviour
     public void StopCutscene()
     {
         videoPlayer.Stop();
+        //if (uiRoot != null && hideUIWhenPlaying)
+        //    uiRoot.SetActive(false);
+        screenImage.gameObject.SetActive(false);
+    }
 
-        if (uiRoot != null && hideUIWhenPlaying)
-            uiRoot.SetActive(false);
+    public void ShowImage(Texture tex)
+    {
+        //if (uiRoot != null)
+        //    uiRoot.SetActive(true);
+        //if (screenImage != null)
+        //    screenImage.texture = tex;
+    }
+
+    public void HideImage()
+    {
+        //if (uiRoot != null)
+        //    uiRoot.SetActive(false);
     }
 }
