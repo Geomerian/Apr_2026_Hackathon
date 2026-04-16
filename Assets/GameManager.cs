@@ -61,7 +61,9 @@ public class GameManager : MonoBehaviour
             
             AdvanceStage();
         }
-            
+
+        Debug.Log("[GameManager] Entering stage of: " + currentStage);
+        SkyManager.Instance.SetSky(gameStageToLevelState(currentStage));
         
     }
 
@@ -93,6 +95,8 @@ public class GameManager : MonoBehaviour
             levelStates.StartDenial();
         }
     }
+
+
 
     // ----------------------------
     // CUTSCENE STATE
