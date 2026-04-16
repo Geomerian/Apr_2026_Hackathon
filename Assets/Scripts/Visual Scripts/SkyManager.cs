@@ -14,7 +14,7 @@ public class SkyManager : MonoBehaviour
         public int stageNumber;
 
         [Header("Skybox")]
-        public bool isFog;
+        public bool fog;
         public FogMode fogMode;
         public Color32 fogColor;
         public float fogStartDistance;
@@ -52,45 +52,17 @@ public class SkyManager : MonoBehaviour
     }
 
     void EnterSky(int stage) {
-        switch (stage) {
-            default:
-                RenderSettings.fog = false;
-                break;
-            case 1: // Denial
-                RenderSettings.fog = true;
-                RenderSettings.fogMode = FogMode.Linear;
-                RenderSettings.fogColor = new Color32(53,17,144,204);
-                RenderSettings.fogEndDistance = 30f;
-                RenderSettings.fogStartDistance = 15f;
-                RenderSettings.skybox = stages[1].stage_skybox;
-                break;
-            case 2: // Anger
-                break;
-            case 3: // Bargaining
-                break;
-            case 4: // Depression
-                break;
-            case 5: // Acceptance
-                break;
-        }
+        RenderSettings.fog = stages[stage].fog;
+        RenderSettings.fogMode = stages[stage].fogMode;
+        RenderSettings.fogColor = stages[stage].fogColor;
+        RenderSettings.fogEndDistance = stages[stage].fogEndDistance;
+        RenderSettings.fogStartDistance = stages[stage].fogStartDistance;
+        RenderSettings.skybox = stages[stage].stage_skybox;
     }
 
     void ExitSky(int stage)
     {
-        switch (stage) {
-        
-            case 1: // Denial
-                
-                break;
-            case 2: // Anger
-                break;
-            case 3: // Bargaining
-                break;
-            case 4: // Depression
-                break;
-            case 5: // Acceptance
-                break;
-        }
+
 
     }
 }
