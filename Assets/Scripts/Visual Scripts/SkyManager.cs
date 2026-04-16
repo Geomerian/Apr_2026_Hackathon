@@ -52,12 +52,13 @@ public class SkyManager : MonoBehaviour
     }
 
     void EnterSky(int stage) {
-        RenderSettings.fog = stages[stage].fog;
-        RenderSettings.fogMode = stages[stage].fogMode;
-        RenderSettings.fogColor = stages[stage].fogColor;
-        RenderSettings.fogEndDistance = stages[stage].fogEndDistance;
-        RenderSettings.fogStartDistance = stages[stage].fogStartDistance;
-        RenderSettings.skybox = stages[stage].stage_skybox;
+        int stageNum = stage - 1; //bandaid will make better when unifying levelstates later
+        RenderSettings.fog = stages[stageNum].fog;
+        RenderSettings.fogMode = stages[stageNum].fogMode;
+        RenderSettings.fogColor = stages[stageNum].fogColor;
+        RenderSettings.fogEndDistance = stages[stageNum].fogEndDistance;
+        RenderSettings.fogStartDistance = stages[stageNum].fogStartDistance;
+        RenderSettings.skybox = stages[stageNum].stage_skybox;
     }
 
     void ExitSky(int stage)
