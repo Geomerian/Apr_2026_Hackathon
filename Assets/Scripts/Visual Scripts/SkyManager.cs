@@ -64,7 +64,10 @@ public class SkyManager : MonoBehaviour
         RenderSettings.fogStartDistance = stages[stageNum].fogStartDistance;
         RenderSettings.skybox = stages[stageNum].stage_skybox;
 
-        stages[stageNum].skyLights.SetActive(true);
+        if (stages[stageNum].skyLights != null)
+        {
+            stages[stageNum].skyLights.SetActive(true);
+        }
     }
 
     void ExitSky(int stage)
