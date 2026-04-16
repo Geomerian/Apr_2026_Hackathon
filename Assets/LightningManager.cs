@@ -11,7 +11,7 @@ using UnityEditor;
 /// Assign a Directional Light to the <see cref="lightSource"/> field, configure
 /// one or more <see cref="LightningSettings"/> entries, then hit Play.
 /// </summary>
-public class RandomLightning : MonoBehaviour
+public class LightningManager : MonoBehaviour
 {
     // -------------------------------------------------------------------------
     // Data Types

@@ -8,6 +8,9 @@ public class SkyManager : MonoBehaviour
     [SerializeField]
     private int currentStage = 1;
 
+    [SerializeField]
+    private LightningManager lightningManager;
+
     [System.Serializable]
     public class StageSky
     {
@@ -24,6 +27,11 @@ public class SkyManager : MonoBehaviour
 
         [Header("Sky Light Collection")]
         public GameObject skyLights;
+
+        [Header("Lightning Settings")]
+        public bool doLightning = false;
+        public float lightningFogStart;
+        public float lightningFogEnd;
     }
 
     [Header("Stages")]
@@ -64,6 +72,8 @@ public class SkyManager : MonoBehaviour
         RenderSettings.fogStartDistance = stages[stageNum].fogStartDistance;
         RenderSettings.skybox = stages[stageNum].stage_skybox;
 
+        lightningManager.gameObject.SetActive(stages[stageNum].doLightning);
+
         if (stages[stageNum].skyLights != null)
         {
             stages[stageNum].skyLights.SetActive(true);
@@ -80,8 +90,8 @@ public class SkyManager : MonoBehaviour
 
     public void EnterLightning()
     {
-        RenderSettings.fogStartDistance = 50f;
-        RenderSettings.fogEndDistance = 100f;
+        RenderSettings.fogStartDistance = stages[currentStage].lightningFogStart;
+        RenderSettings.fogEndDistance = stages[currentStage].lightningFogEnd;
     }
 
     public void ExitLightning()
