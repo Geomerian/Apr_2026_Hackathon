@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.XR.Haptics;
 
 public class SkyManager : MonoBehaviour
 {
@@ -49,7 +50,8 @@ public class SkyManager : MonoBehaviour
 
     public void SetSky(int stage) {
         ExitSky(currentStage);
-        EnterSky(stage);
+        currentStage = stage;
+        EnterSky(currentStage);
 
     }
 

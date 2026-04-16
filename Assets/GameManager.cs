@@ -125,6 +125,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Entering Non-Cutscene");
             inCutscene = false;
             levelStates.NextLevel();
+            SkyManager.Instance.SetSky(gameStageToLevelState(currentStage));
         }
         else
         {
