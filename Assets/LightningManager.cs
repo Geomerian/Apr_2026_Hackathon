@@ -17,6 +17,8 @@ public class RandomLightning : MonoBehaviour
     // Data Types
     // -------------------------------------------------------------------------
 
+    public GameObject player;
+
     [Serializable]
     public class RotationRange
     {
@@ -62,6 +64,12 @@ public class RandomLightning : MonoBehaviour
         public float SampleDuration() =>
             UnityEngine.Random.Range(durationRange.x, durationRange.y);
 
+        public float SampleDelay() =>
+            UnityEngine.Random.Range(delayRange.x, delayRange.y);
+
+        public float SampleVolume() =>
+            UnityEngine.Random.Range(thunderVolumeRange.x, thunderVolumeRange.y);
+
         private static AnimationCurve DefaultCurve()
         {
             // Quick flash: ramp up, brief hold, ramp down
@@ -74,6 +82,12 @@ public class RandomLightning : MonoBehaviour
             );
             return curve;
         }
+
+        public AudioClip thunderSFX;
+        public Vector2 delayRange = new Vector2(1f, 2f);
+        public float soundDistance = 10f;
+        public Vector2 thunderVolumeRange = new Vector2(8f, 10f);
+
     }
 
     // -------------------------------------------------------------------------
@@ -142,17 +156,25 @@ public class RandomLightning : MonoBehaviour
 
     private IEnumerator Strike(LightningSettings s)
     {
+        Quaternion strikeRotation = s.rotation.Sample();
+        float delayStart = s.SampleDelay();
+
+        // Fire both independently — thunder will lag behind naturally
+        StartCoroutine(StrikeLight(s, strikeRotation));
+        StartCoroutine(StrikeSFX(s, strikeRotation, delayStart));
+
+        yield break;
+    }
+
+    private IEnumerator StrikeLight(LightningSettings s, Quaternion strikeRotation)
+    {
+        lightSource.transform.rotation = strikeRotation;
+        float duration = s.SampleDuration();
+        float elapsed = 0f;
+
         lightSource.gameObject.SetActive(true);
         _striking = true;
-
         SkyManager.Instance.EnterLightning();
-
-        // Apply rotation
-        Quaternion strikeRotation = s.rotation.Sample();
-        lightSource.transform.rotation = strikeRotation;
-
-        float duration = s.SampleDuration();
-        float elapsed  = 0f;
 
         while (elapsed < duration)
         {
@@ -162,15 +184,26 @@ public class RandomLightning : MonoBehaviour
             yield return null;
         }
 
-        // Restore
-        lightSource.intensity         = _originalIntensity;
+        lightSource.intensity = _originalIntensity;
         lightSource.transform.rotation = _originalRotation;
-
         SkyManager.Instance.ExitLightning();
-
         _striking = false;
         lightSource.gameObject.SetActive(false);
     }
+
+    private IEnumerator StrikeSFX(LightningSettings s, Quaternion strikeRotation, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Debug.Log("[LightningManager] Striking Thunder!");
+        Vector3 thunderAbsPosition = GetAbsolutePosition(
+            player.transform.position,
+            strikeRotation.eulerAngles,
+            s.soundDistance
+        );
+        SFXManager.Instance.PlaySFX(s.thunderSFX, thunderAbsPosition, s.SampleVolume());
+    }
+
 
     // -------------------------------------------------------------------------
     // Weighted Random Selection
@@ -204,6 +237,13 @@ public class RandomLightning : MonoBehaviour
         foreach (var l in FindObjectsByType<Light>(FindObjectsSortMode.None))
             if (l.type == LightType.Directional) return l;
         return null;
+    }
+
+    private Vector3 GetAbsolutePosition(Vector3 origin, Vector3 rotation, float distance)
+    {
+        Quaternion displacement_rotation = Quaternion.Euler(rotation.x, rotation.y, 0f);
+        Vector3 direction = displacement_rotation * Vector3.forward;
+        return origin + (direction * distance);
     }
 
     // -------------------------------------------------------------------------
