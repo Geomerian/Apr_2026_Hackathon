@@ -65,6 +65,8 @@ public class SkyManager : MonoBehaviour
 
     void EnterSky(int stage) {
         int stageNum = stage - 1; //bandaid will make better when unifying levelstates later
+
+        Debug.Log("[Sky Manager] I'm entering stage " + stageNum);
         RenderSettings.fog = stages[stageNum].fog;
         RenderSettings.fogMode = stages[stageNum].fogMode;
         RenderSettings.fogColor = stages[stageNum].fogColor;
@@ -83,19 +85,22 @@ public class SkyManager : MonoBehaviour
     void ExitSky(int stage)
     {
         int stageNum = stage - 1; //bandaid will make better when unifying levelstates later
-
-        stages[stageNum].skyLights.SetActive(false);
-
+        if (stages[stageNum].skyLights != null)
+        {
+            stages[stageNum].skyLights.SetActive(false);
+        }
     }
 
     public void EnterLightning()
     {
+        Debug.Log("[Sky Manager] Activating Fog Distance to non-lightning: " + stages[currentStage].lightningFogStart + " " + stages[currentStage].lightningFogEnd);
         RenderSettings.fogStartDistance = stages[currentStage].lightningFogStart;
         RenderSettings.fogEndDistance = stages[currentStage].lightningFogEnd;
     }
 
     public void ExitLightning()
     {
+        Debug.Log("[Sky Manager] Returning Fog Distance to non-lightning: " + stages[currentStage].fogStartDistance + " " + stages[currentStage].fogEndDistance);
         RenderSettings.fogStartDistance = stages[currentStage].fogStartDistance;
         RenderSettings.fogEndDistance = stages[currentStage].fogEndDistance;
     }

@@ -131,7 +131,7 @@ public class LightningManager : MonoBehaviour
     }
 
     private void OnEnable()  => StartCoroutine(LightningLoop());
-    private void OnDisable() => StopAllCoroutines();
+    private void OnDisable() => StopCleanup();
 
     // -------------------------------------------------------------------------
     // Core Loop
@@ -186,6 +186,7 @@ public class LightningManager : MonoBehaviour
 
         lightSource.intensity = _originalIntensity;
         lightSource.transform.rotation = _originalRotation;
+
         SkyManager.Instance.ExitLightning();
         _striking = false;
         lightSource.gameObject.SetActive(false);
@@ -244,6 +245,12 @@ public class LightningManager : MonoBehaviour
         Quaternion displacement_rotation = Quaternion.Euler(rotation.x, rotation.y, 0f);
         Vector3 direction = displacement_rotation * Vector3.forward;
         return origin + (direction * distance);
+    }
+
+    private void StopCleanup()
+    {
+        lightSource.gameObject.SetActive(false);
+        StopAllCoroutines();
     }
 
     // -------------------------------------------------------------------------
