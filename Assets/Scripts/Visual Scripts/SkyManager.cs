@@ -77,5 +77,17 @@ public class SkyManager : MonoBehaviour
         stages[stageNum].skyLights.SetActive(false);
 
     }
+
+    public void EnterLightning()
+    {
+        RenderSettings.fogStartDistance = 50f;
+        RenderSettings.fogEndDistance = 100f;
+    }
+
+    public void ExitLightning()
+    {
+        RenderSettings.fogStartDistance = stages[currentStage].fogStartDistance;
+        RenderSettings.fogEndDistance = stages[currentStage].fogEndDistance;
+    }
 }
 
