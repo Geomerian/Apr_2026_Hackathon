@@ -3,9 +3,9 @@ using UnityEngine;
 public class SkyManager : MonoBehaviour
 {
     public static SkyManager Instance;
-
+   
     [SerializeField]
-    int currentStage = 1;
+    private int currentStage = 1;
 
     [System.Serializable]
     public class StageSky
@@ -13,7 +13,7 @@ public class SkyManager : MonoBehaviour
         public string name;
         public int stageNumber;
 
-        [Header("Skybox")]
+        [Header("Fog Settings")]
         public bool fog;
         public FogMode fogMode;
         public Color32 fogColor;
@@ -21,6 +21,8 @@ public class SkyManager : MonoBehaviour
         public float fogEndDistance;
         public Material stage_skybox;
 
+        [Header("Sky Light Collection")]
+        public GameObject skyLights;
     }
 
     [Header("Stages")]
@@ -59,11 +61,15 @@ public class SkyManager : MonoBehaviour
         RenderSettings.fogEndDistance = stages[stageNum].fogEndDistance;
         RenderSettings.fogStartDistance = stages[stageNum].fogStartDistance;
         RenderSettings.skybox = stages[stageNum].stage_skybox;
+
+        stages[stageNum].skyLights.SetActive(true);
     }
 
     void ExitSky(int stage)
     {
+        int stageNum = stage - 1; //bandaid will make better when unifying levelstates later
 
+        stages[stageNum].skyLights.SetActive(false);
 
     }
 }
