@@ -115,20 +115,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cutscenes:
   - name: Intro
-    clip: {fileID: 32900000, guid: 7bbdfb675f029fc47b344d606bc9f9d9, type: 3}
+    clip: {fileID: 32900000, guid: 03d0669b6361c8e48a98aa6c3ea303a5, type: 3}
   - name: Bargaining
-    clip: {fileID: 32900000, guid: 9ac475d6c1627f9409487ba3a61c6434, type: 3}
+    clip: {fileID: 32900000, guid: 62092871c0f4c5f4890fa6e6d8a3883f, type: 3}
   - name: Bargaining1A
-    clip: {fileID: 32900000, guid: 3a335b5850e9b684c9fe03a35e8bd6a6, type: 3}
+    clip: {fileID: 32900000, guid: 32db3d0ae74d7474a938f1654e5b5028, type: 3}
   - name: Bargaining1B
-    clip: {fileID: 32900000, guid: 75eec288b021bad45a98aae37b8c7996, type: 3}
+    clip: {fileID: 32900000, guid: 0371076b0b503644ca987c8c20e67ec1, type: 3}
   - name: Bargaining2A
-    clip: {fileID: 32900000, guid: 5702110d521ef23428c39fdfbdb61f6e, type: 3}
+    clip: {fileID: 32900000, guid: 6e73673956010d24a9a421d2d975448b, type: 3}
   - name: Bargaining2B
-    clip: {fileID: 32900000, guid: b78db17e93c644e42b1db34f434f058f, type: 3}
+    clip: {fileID: 32900000, guid: d9599abe681bbee40883498465e5840f, type: 3}
   - name: Void
-    clip: {fileID: 32900000, guid: f87f7b4e170800a47821fe7e2fad96cb, type: 3}
+    clip: {fileID: 32900000, guid: 7d03ca2ec08470d41b848d79253baa63, type: 3}
   videoPlayer: {fileID: 6592696898473153482}
   screenImage: {fileID: 0}
-  uiRoot: {fileID: 0}
   hideUIWhenPlaying: 1
+  skipKey: 27
+  allowSkip: 1
