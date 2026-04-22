@@ -9,6 +9,8 @@ public class CutsceneManager : MonoBehaviour
     {
         public string name;
         public VideoClip clip;
+        // filename for webgl builds
+        public string webglFilename;
     }
 
     [Header("Cutscene Library")]
@@ -57,7 +59,15 @@ public class CutsceneManager : MonoBehaviour
         {
             if (cutscenes[i].name == cutsceneName)
             {
+                #if UNITY_WEBGL
+                string  url = System.IO.Path.Combine(Application.streamingAssetsPath, cutscenes[i].webglFilename);
+                PlayURL(url);
+                #endif 
+
+                #if !UNITY_WEBGL
                 PlayClip(cutscenes[i].clip);
+                #endif
+
                 return;
             }
         }
@@ -72,6 +82,17 @@ public class CutsceneManager : MonoBehaviour
         //    uiRoot.SetActive(true);
         videoPlayer.Stop();
         videoPlayer.clip = clip;
+        videoPlayer.Prepare();
+    }
+
+    private void PlayURL(string url)
+    {
+        if (string.IsNullOrEmpty(url)) return;
+        screenImage.gameObject.SetActive(true);
+        //if (uiRoot != null && hideUIWhenPlaying)
+        //    uiRoot.SetActive(true);
+        videoPlayer.Stop();
+        videoPlayer.url = url;
         videoPlayer.Prepare();
     }
 

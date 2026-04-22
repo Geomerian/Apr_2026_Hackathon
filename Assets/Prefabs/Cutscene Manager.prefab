@@ -116,18 +116,25 @@ MonoBehaviour:
   cutscenes:
   - name: Intro
     clip: {fileID: 32900000, guid: 03d0669b6361c8e48a98aa6c3ea303a5, type: 3}
+    webglFilename: 1. Intro.webm
   - name: Bargaining
     clip: {fileID: 32900000, guid: 62092871c0f4c5f4890fa6e6d8a3883f, type: 3}
+    webglFilename: 2. Bargaining Intro.webm
   - name: Bargaining1A
     clip: {fileID: 32900000, guid: 32db3d0ae74d7474a938f1654e5b5028, type: 3}
+    webglFilename: 4. (Correct) Sunny Side Up.webm
   - name: Bargaining1B
     clip: {fileID: 32900000, guid: 0371076b0b503644ca987c8c20e67ec1, type: 3}
+    webglFilename: 4. (Wrong) Over Easy.webm
   - name: Bargaining2A
     clip: {fileID: 32900000, guid: 6e73673956010d24a9a421d2d975448b, type: 3}
+    webglFilename: 6. (Correct) Well Done.webm
   - name: Bargaining2B
     clip: {fileID: 32900000, guid: d9599abe681bbee40883498465e5840f, type: 3}
+    webglFilename: 6. (Wrong) Medium Rare.webm
   - name: Void
     clip: {fileID: 32900000, guid: 7d03ca2ec08470d41b848d79253baa63, type: 3}
+    webglFilename: 7. Conclusion.webm
   videoPlayer: {fileID: 6592696898473153482}
   screenImage: {fileID: 0}
   hideUIWhenPlaying: 1
